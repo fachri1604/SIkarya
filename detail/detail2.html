@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Proyek Mahasiswa</title>
+    <link rel="stylesheet" href="../css/tes.css">
+</head>
+<body>
+    <!-- Header Section Start -->
+    <nav>
+        <div class="navbar">
+            <i class="bx bx-menu"></i>
+            <div class="logo"><a href="index.html">SiKarya</a></div>
+            <div class="nav-links">
+                <div class="sidebar-logo">
+                    <span class="logo-name">SiKarya</span>
+                    <i class="bx bx-x"></i>
+                </div>
+                <ul class="links">
+                    <li><a href="../index.html">Beranda</a></li>
+                    <li><a href="../karya.html">Karya</a></li>
+                    <li><a href="login/login.html">Login</a></li>
+                </ul>
+            </div>
+            <div class="search-box">
+                <i class="bx bx-search"></i>
+                <div class="input-box">
+                    <input type="text" placeholder="Search..." />
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script src="js/navbar.js"></script>
+
+    <header>
+        <!-- Konten Header -->
+        <div class="kepala">
+            <h2>KARYA ILMIAH MAHASISWA</h2>
+        </div>
+    </header>
+        <!-- Slideshow Gallery -->
+        <div class="all-container">
+          <div class="container">
+              <div class="mySlides">
+                  <div class="numbertext">1 / 6</div>
+                  <img src="../assets/rasaujaya/1.jpg" style="width:100%">
+              </div>
+  
+              <div class="mySlides">
+                  <div class="numbertext">2 / 6</div>
+                  <img src="../assets/rasaujaya/2.jpg" style="width:100%">
+              </div>
+  
+              <div class="mySlides">
+                  <div class="numbertext">3 / 6</div>
+                  <img src="../assets/rasaujaya/3.jpg" style="width:100%">
+              </div>
+                  
+              <div class="mySlides">
+                  <div class="numbertext">4 / 6</div>
+                  <img src="../assets/rasaujaya/4.jpg" style="width:100%">
+              </div>
+  
+              <div class="mySlides">
+                  <div class="numbertext">5 / 6</div>
+                  <img src="../assets/rasaujaya/5.jpg" style="width:100%">
+              </div>
+                  
+              <div class="mySlides">
+                  <div class="numbertext">6 / 6</div>
+                  <img src="../assets/rasaujaya/6.jpg" style="width:100%">
+              </div>
+                  
+              <a class="prev" onclick="plusSlides(-1)">❮</a>
+              <a class="next" onclick="plusSlides(1)">❯</a>
+  
+              <div class="caption-container">
+                  <p id="caption"></p>
+              </div>
+  
+              <div class="row">
+                  <div class="column">
+                      <img class="demo cursor" src="../assets/ta-rissa.jpg" style="width:100%" onclick="currentSlide(1)" alt="Halaman utama TA">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="../assets/ta-rissa1.jpg" style="width:100%" onclick="currentSlide(2)" alt="Daftar isi TA">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="../assets/ta-rissa2.jpg" style="width:100%" onclick="currentSlide(3)" alt="Halaman 'create account' ">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="../assets/ta-rissa3.jpg" style="width:100%" onclick="currentSlide(4)" alt="Halaman 'input akun baru'">
+                  </div>
+                  <div class="column">
+                      <img class="demo cursor" src="../assets/ta-rissa4.jpg" style="width:100%" onclick="currentSlide(5)" alt="Halaman lokasi diri sendiri">
+                  </div>    
+                  <div class="column">
+                      <img class="demo cursor" src="../assets/ta-rissa5.jpg" style="width:100%" onclick="currentSlide(6)" alt="Halaman lokasi keluarga">
+                  </div>
+              </div>
+          </div>
+      </div>
+  
+      <script>
+          let slideIndex = 1;
+          showSlides(slideIndex);
+  
+          function plusSlides(n) {
+              showSlides(slideIndex += n);
+          }
+  
+          function currentSlide(n) {
+              showSlides(slideIndex = n);
+          }
+  
+          function showSlides(n) {
+              let i;
+              let slides = document.getElementsByClassName("mySlides");
+              let dots = document.getElementsByClassName("demo");
+              let captionText = document.getElementById("caption");
+              if (n > slides.length) { slideIndex = 1 }
+              if (n < 1) { slideIndex = slides.length }
+              for (i = 0; i < slides.length; i++) {
+                  slides[i].style.display = "none";
+              }
+              for (i = 0; i < dots.length; i++) {
+                  dots[i].className = dots[i].className.replace(" active", "");
+              }
+              slides[slideIndex - 1].style.display = "block";
+              dots[slideIndex - 1].className += " active";
+              captionText.innerHTML = dots[slideIndex - 1].alt;
+          }
+      </script>
+  
+
+    <!-- Profil Mahasiswa -->
+    <section class="content-container-detail">
+        <div class="pundak-kiri">
+            <h2>Deskripsi Proyek</h2>
+            <p>oleh: Fitri Astuti</p>
+            <p>Aplikasi berbasis website ini di rancang dengan menggunakan perangkat lunak Sublime Text 3, Xampp, framework Laravel, CorelDRAW X8, Balsamic Mockup sebagai perancangan interface website serta web browser Mozilla Firefox. Metode pengembangan sistem yang digunakan adalah waterfall serta metode pengumpulan data berupa observasi, studi literatur, wawancara dan dokumentasi
+            .Tujuan dari aplikasi ini adalah untuk menyajikan dan menyebarkan informasi mengenai profile sekolah, berita/pengumuman penting sekolah, prestasi yang di dapat oleh sekolah, data staff guru, serta fitur akses materi via website. Serta aplikasi website ini dapat digunakan oleh guru dan siswa dengan otoritas tertinggi yang di pegang oleh admin. Seorang admin dapat menambah, memperbarui dan menghapus berita, prestasi, data guru, serta file materi pelajaran.</p><br>
+            <p>Karya ilmiah ini dibuat oleh Fitri Astuti</p>
+        </div>
+        
+        <div class="pundak-kanan">
+          <h2>Informasi Mahasiswa</h2>
+          <img src="../assets/rasaujaya/foto profil.jpg" alt="foto mahasiswa" class="pundak-kanan">
+          <p>mahasiswa Politeknik Negeri Pontianak Angkatan 2022</p>
+          <ul>
+            <li>Nama : Fitri Astuti</li>
+            <li>NIM : 320166095</li>
+            <li>No. HP : 089687658020</li>
+            <li>Email : fitriastuti750@gmail.com</li>
+            <li>Alamat :- </li>
+          </ul>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="main-content">
+            <div class="left box">
+                <h2>Tentang Kami</h2>
+                <div class="content">
+                    <p>
+                        SIKARYA adalah platform yang didedikasikan untuk menampilkan karya
+                        ilmiah dan tugas akhir mahasiswa dari Politeknik Negeri Pontianak.
+                        Kami bertujuan untuk memberikan tempat bagi mahasiswa untuk
+                        memamerkan hasil kerja mereka.
+                    </p>
+                    <br />
+                    <p>
+                        Kami percaya bahwa setiap karya memiliki cerita dan nilai yang
+                        harus diapresiasi, dan melalui SIKARYA, kami berharap dapat
+                        memberikan pengakuan yang layak bagi setiap karya mahasiswa.
+                    </p>
+                    <div class="social">
+                        <a href="https://facebook.com/coding.np"><span class="fab fa-facebook-f"></span></a>
+                        <a href="#"><span class="fab fa-twitter"></span></a>
+                        <a href="https://instagram.com/coding.np"><span class="fab fa-instagram"></span></a>
+                        <a href="https://youtube.com/c/codingnepal"><span class="fab fa-youtube"></span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center box">
+                <h2>Alamat</h2>
+                <div class="content">
+                    <div class="place">
+                        <span class="fas fa-map-marker-alt"></span>
+                        <span class="text">Kalimantan Barat, Pontianak</span>
+                    </div>
+                    <div class="phone">
+                        <span class="fas fa-phone-alt"></span>
+                        <span class="text">+089-765432100</span>
+                    </div>
+                    <div class="email">
+                        <span class="fas fa-envelope"></span>
+                        <span class="text">Polnep@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right box">
+                <h2>Hubungi Kami</h2>
+                <div class="content">
+                    <form action="#">
+                        <div class="email">
+                            <div class="text">Email *</div>
+                            <input type="email" required />
+                        </div>
+                        <div class="msg">
+                            <div class="text">Message *</div>
+                            <textarea rows="2" cols="25" required></textarea>
+                        </div>
+                        <div class="btn">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <center>
+                <span class="credit">Created By <a href="#">POLNEP</a> | </span>
+                <span class="far fa-copyright"></span><span> 2024 All rights reserved.</span>
+            </center>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+</body>
+</html>

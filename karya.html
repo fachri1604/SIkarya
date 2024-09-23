@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="css/style.css"
+    />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Galeri Karya</title>
+  </head>
+  <body>
+    <!-- Header Section Start -->
+    <nav>
+      <div class="navbar">
+        <i class="bx bx-menu"></i>
+        <div class="logo"><a href="#">SiKarya</a></div>
+        <div class="nav-links">
+          <div class="sidebar-logo">
+            <span class="logo-name">SiKarya</span>
+            <i class="bx bx-x"></i>
+          </div>
+          <ul class="links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="karya.html">Karya</a></li>
+            <li><a href="login/login.html">Login</a></li>
+          </ul>
+        </div>
+        <!-- <div class="search-box">
+          <i class="bx bx-search"></i>
+          <div class="input-box">
+            <input
+              type="text"
+              placeholder="Search..."
+            />
+          </div> -->
+        </div>
+      </div>
+    </nav>
+    <script src="js/navbar.js"></script>
+    <!-- Header Section End -->
+
+
+
+    <!-- Content Section Start -->
+    <div class="kategori"></div>
+    <section class="karya-container">
+      <div class="konten">
+        <h2>Galeri Karya Mahasiswa</h2>
+    
+        <!-- Search and Filter Section Start -->
+        <section class="search-filter-container">
+          <form id="searchForm">
+            <div class="search-bar">
+              <input
+                type="text"
+                placeholder="Search for works..."
+                id="searchInput"
+              />
+              <button type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+    
+            <div class="filter-options">
+              <!-- Filter by Year -->
+              <select id="yearFilter">
+                <option value="">All Years</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <!-- Add more years as needed -->
+              </select>
+    
+              <!-- Filter by Type -->
+              <select id="typeFilter">
+                <option value="">All Types</option>
+                <option value="thesis">Tugas Akhir</option>
+                <option value="pbl">PBL</option>
+                <option value="final_project">Final Project</option>
+              </select>
+    
+              <button type="submit" class="filter-btn">Apply Filters</button>
+            </div>
+          </form>
+        </section>
+        <!-- Search and Filter Section End -->
+
+        <div class="card-list">
+          <a
+            href="detail/detail.html"
+            class="card-item"
+          >
+            <img
+              src="assets/aplikasi locator.png"
+              alt="Card Image"
+            />
+            <h3>Aplikasi Family Locator</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="detail/detail2.html"
+            class="card-item"
+          >
+            <img
+              src="assets/karya01.png"
+              alt="Card Image"
+            />
+            <h3>Rancang bangun Website SMA NEGERI 1 RASAU JAYA</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="detail/detail3.html"
+            class="card-item"
+          >
+            <img
+              src="assets/perangkat keras/7.jpg"
+              alt="Card Image"
+            />
+            <h3>Perangkat keras komputer Augmented Reality Di SMK 7 Pontianak</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="detail/detail4.html"
+            class="card-item"
+          >
+            <img
+              src="assets/covid19.png"
+              alt="Card Image"
+            />
+            <h3>Web Geographic Information covid19</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="detail/detail5.html"
+            class="card-item"
+          >
+            <img
+              src="assets/powersupply/6.jpg"
+              alt="Card Image"
+            />
+            <h3>Power Supply Variabel</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="#"
+            class="card-item"
+          >
+            <img
+              src="assets/karya.jpg"
+              alt="Card Image"
+            />
+            <h3>Karya Ilmiah Mahasiswa</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="#"
+            class="card-item"
+          >
+            <img
+              src="assets/karya.jpg"
+              alt="Card Image"
+            />
+            <h3>Karya Ilmiah Mahasiswa</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+          <a
+            href="#"
+            class="card-item"
+          >
+            <img
+              src="assets/karya.jpg"
+              alt="Card Image"
+            />
+            <h3>Karya Ilmiah Mahasiswa</h3>
+            <div class="arrow">
+              <i class="fas fa-arrow-right card-icon"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Section End -->
+
+    <!-- Footer Section Start -->
+    <footer>
+      <div class="main-content">
+        <div class="left box">
+          <h2>Tentang Kami</h2>
+          <div class="content">
+            <p>
+              SIKARYA adalah platform yang didedikasikan untuk menampilkan karya ilmiah dan tugas akhir mahasiswa dari Politeknik Negeri Pontianak. Kami bertujuan untuk memberikan tempat bagi mahasiswa untuk memamerkan hasil kerja mereka.
+            </p>
+            <br />
+            <p>Kami percaya bahwa setiap karya memiliki cerita dan nilai yang harus diapresiasi, dan melalui SIKARYA, kami berharap dapat memberikan pengakuan yang layak bagi setiap karya mahasiswa.</p>
+            <div class="social">
+              <a href="https://facebook.com/coding.np"><span class="fab fa-facebook-f"></span></a>
+              <a href="#"><span class="fab fa-twitter"></span></a>
+              <a href="https://instagram.com/coding.np"><span class="fab fa-instagram"></span></a>
+              <a href="https://youtube.com/c/codingnepal"><span class="fab fa-youtube"></span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="center box">
+          <h2>Alamat</h2>
+          <div class="content">
+            <div class="place">
+              <span class="fas fa-map-marker-alt"></span>
+              <span class="text">Kalimantan, Barat</span>
+            </div>
+            <div class="phone">
+              <span class="fas fa-phone-alt"></span>
+              <span class="text">+089-765432100</span>
+            </div>
+            <div class="email">
+              <span class="fas fa-envelope"></span>
+              <span class="text">Polnep@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="right box">
+          <h2>Hubungi Kami</h2>
+          <div class="content">
+            <form action="#">
+              <div class="email">
+                <div class="text">Email *</div>
+                <input
+                  type="email"
+                  required
+                />
+              </div>
+              <div class="msg">
+                <div class="text">Message *</div>
+                <textarea
+                  rows="2"
+                  cols="25"
+                  required
+                ></textarea>
+              </div>
+              <div class="btn">
+                <button type="submit">Send</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <center>
+          <span class="credit">Created By <a href="">POlNEP</a> | </span>
+          <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
+        </center>
+      </div>
+      <script src="js/filter.js"></script>
+    </footer>
+    <!-- Footer Section End -->
+  </body>
+</html>
