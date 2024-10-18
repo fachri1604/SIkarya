@@ -37,10 +37,10 @@
             <a href="admin_page.html"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a>
           </li>
           <li>
-            <a href="content.html"><i class=""></i><span class="link-name">Add Karya</span></a>
+            <a href="content.html"><i class="uil uil-estate"></i><span class="link-name">Add Karya</span></a>
           </li>
           <li>
-            <a href="Biodata.html"><i class=""></i><span class="link-name">Biodata Mahasiswa</span></a>
+            <a href="Biodata.html"><i class="uil uil-estate"></i><span class="link-name">Biodata Mahasiswa</span></a>
           </li>
           <!-- <li>
             <a href=""><i class=""></i><span class="link-name">Delete Karya</span></a>
@@ -77,65 +77,83 @@
         <div class="project-form">
           <h2>Add/Edit Project</h2>
           <form id="projectForm">
-            <label for="projectId">ID Karya:</label>
+            <label for="nim">NIM:</label>
             <input
               type="text"
-              id="projectId"
+              id="nim"
               required
             />
 
-            <label for="projectTitle">Judul Karya:</label>
+            <label for="nama">Nama Lengkap:</label>
             <input
               type="text"
-              id="projectTitle"
+              id="nama"
               required
             />
-            <label for="projectTitle">Nama Mahasiswa:</label>
+            <label for="prodi">Prodi:</label>
             <input
               type="text"
-              id="projectName"
-              required
-            />
-
-            <label for="projectDescription">Deskripsi Karya:</label>
-            <textarea
-              id="projectDescription"
-              required
-            ></textarea>
-
-            <label for="studentName">Tahun Rilis:</label>
-            <input
-              type="text"
-              id="realese"
+              id="prodi"
               required
             />
 
-            <label for="studentNim">ID Kategori:</label>
+            <label for="jurusan">Jurusan:</label>
             <input
               type="text"
-              id="Idkategori"
+              id="jurusan"
               required
             />
 
-            <label for="profileImage">Profile Image:</label>
+            <label for="email">Email:</label>
+            <input
+              type="text"
+              id="email"
+              required
+            />
+
+            <label for="nomor">Nomor Handphone</label>
+            <input
+              type="text"
+              id="nomor"
+              required
+            />
+
+            <label for="profileImage">Foto Profil:</label>
             <input
               type="file"
               id="profileImage"
               accept="image/*"
               required
             />
-
+            <!-- 
             <label for="mainImage">Gambar Karya:</label>
             <input
               type="file"
               id="mainImage"
               accept="image/*"
               required
-            />
+            /> -->
 
             <button type="submit">Save Project</button>
           </form>
         </div>
+        <h3>Data Mahasiswa</h3>
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>NIM</th>
+              <th>Nama Lengkap</th>
+              <th>Prodi</th>
+              <th>Jurusan</th>
+              <th>Email</th>
+              <th>Nomor Handphone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data dari form akan ditampilkan di sini -->
+          </tbody>
+        </table>
+      </div>
       </div>
     </section>
     <script src="../js/script.js"></script>
