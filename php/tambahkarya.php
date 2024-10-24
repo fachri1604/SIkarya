@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Cek ukuran file
-        if ($_FILES["gambar_karya"]["size"] > 2000000) {
+        if ($_FILES["gambar_karya"]["size"] > 200000000) {
             echo "Ukuran file terlalu besar.";
             exit;
         }

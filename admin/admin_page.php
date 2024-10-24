@@ -21,7 +21,7 @@
         <div class="menu-items">
             <ul class="nav-links">
                 <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
-                <li><a href="content.html"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
+                <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
                 <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Biodata Mahasiswa</span></a></li>
             </ul>
             <ul class="logout-mode">
