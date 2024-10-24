@@ -18,15 +18,16 @@
       rel="stylesheet"
       href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
     />
-    <title>Admin dashboard</title>
+    <title>Halaman Admin</title>
   </head>
+
   <body>
     <nav>
       <div class="logo-name">
         <div class="logo-image">
           <img
-            src="images/logo.png"
-            alt=""
+            src="../assets/logo/logo polnep.png"
+            alt="Logo SiKarya"
           />
         </div>
         <span class="logo_name">SiKarya</span>
@@ -34,26 +35,23 @@
       <div class="menu-items">
         <ul class="nav-links">
           <li>
-            <a href="admin_page.html"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a>
+            <a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a>
           </li>
           <li>
-            <a href="content.html"><i class=""></i><span class="link-name">Add Karya</span></a>
+            <a href="content.html"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a>
           </li>
           <li>
-            <a href="Biodata.html"><i class=""></i><span class="link-name">Biodata Mahasiswa</span></a>
+            <a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Biodata Mahasiswa</span></a>
           </li>
-          <!-- <li>
-            <a href=""><i class=""></i><span class="link-name">Delete Karya</span></a>
-          </li> -->
         </ul>
         <ul class="logout-mode">
           <li>
             <a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a>
           </li>
-          <li class="mode">
-            <a href="#"><i class="uil uil-moon"></i><span class="link-name">Dark Mode</span></a>
+          <!-- <li class="mode">
+            <a href="#"><i class="uil uil-moon"></i><span class="link-name">Mode Gelap</span></a>
             <div class="mode-toggle"><span class="switch"></span></div>
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
@@ -76,11 +74,17 @@
         <div class="overview"></div>
         <div class="project-form">
           <h2>Add/Edit Project</h2>
-          <form id="projectForm">
+          <form
+            id="projectForm"
+            action="/php/tambahkarya.php"
+            method="POST"
+            enctype="multipart/form-data"
+          >
             <label for="projectId">ID Karya:</label>
             <input
               type="text"
               id="projectId"
+              name="id_karya"
               required
             />
 
@@ -88,40 +92,38 @@
             <input
               type="text"
               id="projectTitle"
+              name="nama_karya"
               required
             />
-            <label for="projectTitle">Nama Mahasiswa:</label>
+
+            <label for="projectNim">NIM:</label>
             <input
               type="text"
-              id="projectName"
+              id="projectNim"
+              name="nim_mhs"
               required
             />
 
             <label for="projectDescription">Deskripsi Karya:</label>
             <textarea
               id="projectDescription"
+              name="desc_karya"
               required
             ></textarea>
 
-            <label for="studentName">Tahun Rilis:</label>
+            <label for="releaseYear">Tahun Rilis:</label>
             <input
               type="text"
-              id="realese"
+              id="releaseYear"
+              name="tahun_rilis"
               required
             />
 
-            <label for="studentNim">ID Kategori:</label>
+            <label for="categoryId">ID Kategori:</label>
             <input
               type="text"
-              id="Idkategori"
-              required
-            />
-
-            <label for="profileImage">Profile Image:</label>
-            <input
-              type="file"
-              id="profileImage"
-              accept="image/*"
+              id="categoryId"
+              name="id_kategori"
               required
             />
 
@@ -129,6 +131,7 @@
             <input
               type="file"
               id="mainImage"
+              name="gambar_karya"
               accept="image/*"
               required
             />
@@ -138,6 +141,6 @@
         </div>
       </div>
     </section>
-    <script src="../js/script.js"></script>
+    <!-- <script src="../js/script.js"></script> -->
   </body>
 </html>

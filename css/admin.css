@@ -944,3 +944,79 @@ img {
     margin: 0 auto;
   }
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 18px;
+  text-align: left;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #009879;
+  color: white;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+table img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Form styling */
+.project-form {
+  margin-top: 30px;
+}
+
+.project-form h2 {
+  color: #009879;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.project-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.project-form label {
+  font-weight: bold;
+}
+
+.project-form input, .project-form button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.project-form button {
+  background-color: #009879;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.project-form button:hover {
+  background-color: #007a63;
+}
