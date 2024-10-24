@@ -48,6 +48,7 @@
             <th>Email</th>
             <th>Nomor Handphone</th>
             <th>Foto Profil</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -66,7 +67,11 @@
               <td>" . $row["email"] . "</td>
               <td>" . $row["no_hp"] . "</td>
               <td><img src='../php/uploads1/" . $row["foto"] . "' alt='Foto Profil' class='profile-img'></td>
-            </tr>";
+              <td>
+                <a href='../php/editbio.php?nim_mhs=" . $row["nim_mhs"] . "' class='edit-btn'>Edit</a>
+                <a href='../php/hapusbio.php?nim_mhs=" . $row["nim_mhs"] . "' class='delete-btn' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a>
+              </td>           
+             </tr>";
             }
           } else {
             echo "<tr><td colspan='7'>Tidak ada data ditemukan</td></tr>";
