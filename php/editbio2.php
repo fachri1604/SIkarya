@@ -1,55 +1,53 @@
 <?php
-include '../php/koneksi.php';
+include 'koneksi.php';
 
-if (isset($_POST['nim_mhs'])) {
-    $nim = $_POST['nim_mhs'];
-    $nama = $_POST['nama_mhs'];
-    $prodi = $_POST['prodi'];
-    $jurusan = $_POST['jurusan'];
-    $email = $_POST['email'];
-    $no_hp = $_POST['no_hp'];
+$target_dir = "uploads1/";
+$nim_mhs = $_POST['nim_mhs'];
+$nama_mhs = $_POST['nama_mhs'];
+$prodi = $_POST['prodi'];
+$jurusan = $_POST['jurusan'];
+$email = $_POST['email'];
+$no_hp = $_POST['no_hp'];
+$foto = basename($_FILES["foto"]["name"]);
 
-    // Cek apakah ada foto yang diunggah
-    if (!empty($_FILES['foto']['name'])) {
-        $foto = $_FILES['foto']['name'];
-        $target_dir = "../php/uploads1/";
-        $target_file = $target_dir . basename($_FILES["foto"]["name"]);
+// Cek jika NIM sudah ada
+$sql_check = "SELECT * FROM biodata_mhs WHERE nim_mhs = '$nim_mhs'";
+$result_check = $conn->query($sql_check);
 
-        // Upload foto
-        if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-            // Jika upload sukses, update dengan foto baru
-            $sql = "UPDATE biodata_mhs SET 
-                        nama_mhs='$nama', 
-                        prodi='$prodi', 
-                        jurusan='$jurusan', 
-                        email='$email', 
-                        no_hp='$no_hp', 
-                        foto='$foto' 
-                    WHERE nim_mhs='$nim'";
-        } else {
-            echo "Error saat mengunggah foto.";
-            exit;
-        }
+if ($result_check->num_rows > 0) {
+    // Mode Update jika NIM ada
+    $row = $result_check->fetch_assoc(); // Ambil data untuk mendapatkan foto yang ada
+    $existing_foto = $row['foto']; // Simpan nama foto yang sudah ada
+
+    $sql = "UPDATE biodata_mhs SET 
+                nama_mhs='$nama_mhs', 
+                prodi='$prodi', 
+                jurusan='$jurusan', 
+                email='$email', 
+                no_hp='$no_hp'";
+
+    // Jika ada foto yang diunggah, update foto
+    if ($_FILES["foto"]["size"] > 0) { // Cek apakah ada file yang diupload
+        move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $foto);
+        $sql .= ", foto='$foto'"; // Tambahkan foto jika ada yang diunggah
     } else {
-        // Jika tidak ada foto yang diunggah, update tanpa mengubah kolom foto
-        $sql = "UPDATE biodata_mhs SET 
-                    nama_mhs='$nama', 
-                    prodi='$prodi', 
-                    jurusan='$jurusan', 
-                    email='$email', 
-                    no_hp='$no_hp'
-                WHERE nim_mhs='$nim'";
+        $sql .= ", foto='$existing_foto'"; // Jaga foto yang ada jika tidak diupload baru
     }
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Data berhasil diperbarui.";
-        header('Location: ../admin/Biodata.php'); // Redirect ke halaman admin setelah update
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    $conn->close();
+    $sql .= " WHERE nim_mhs='$nim_mhs'";
+    $action_message = "Data berhasil diperbarui.";
 } else {
-    echo "Form tidak lengkap.";
+    // Mode Tambah jika NIM tidak ada
+    if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $foto)) {
+        $sql = "INSERT INTO biodata_mhs (nim_mhs, nama_mhs, prodi, jurusan, email, no_hp, foto)
+                VALUES ('$nim_mhs', '$nama_mhs', '$prodi', '$jurusan', '$email', '$no_hp', '$foto')";
+        $action_message = "Data berhasil ditambahkan.";
+    }
 }
-?>
+
+if ($conn->query($sql) === TRUE) {
+    echo "<script>alert('$action_message'); window.location.href='../admin/biodata.php';</script>";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+$conn->close();
