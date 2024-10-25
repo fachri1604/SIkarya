@@ -98,7 +98,7 @@
           <div class="content">
             <div class="place">
               <span class="fas fa-map-marker-alt"></span>
-              <span class="text">kalimantan barat, Pontianak</span>
+              <span class="text">Kalimantan Barat, Pontianak</span>
             </div>
             <div class="phone">
               <span class="fas fa-phone-alt"></span>
@@ -112,7 +112,7 @@
         </div>
 
         <div class="right box">
-          <h2>hubungi kami</h2>
+          <h2>Hubungi Kami</h2>
           <div class="content">
             <form action="#">
               <div class="email">
@@ -137,16 +137,21 @@
           </div>
         </div>
       </div>
+
+      <!-- Footer Bottom -->
       <div class="bottom">
         <center>
-          <span class="credit">Created By <a href="https://polnep.ac.id/">POLNEP</a> | </span>
+          <span class="credit">Created By 
+            <a href="https://polnep.ac.id/">POLNEP</a> | 
+          </span> 
           <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
         </center>
       </div>
+
     </footer>
-    <!-- Footer Section End
 
     <!-- JavaScript -->
+    <!-- Script untuk login -->
     <script>
       const adminUsername = 'admin'; // Ganti dengan username admin
       const adminPassword = 'admin123'; // Ganti dengan password admin
@@ -165,11 +170,25 @@
         if (enteredUsername === storedUsername && enteredPassword === storedPassword) {
           alert('Login berhasil!');
           // Arahkan ke halaman admin
-          window.location.href = '../admin/admin_page.html'; //  URL halaman admin
+          window.location.href = '../admin/admin_page.php'; // URL halaman admin
         } else {
-          alert('Username atau password salah!');
+          alert('Nama pengguna atau kata sandi salah!');
         }
       }
+
+      // Tambahkan event listener untuk tekan Enter pada input username dan password
+      document.getElementById('username').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+          login();
+        }
+      });
+
+      document.getElementById('password').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+          login();
+        }
+      });
     </script>
+
   </body>
 </html>
