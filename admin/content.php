@@ -48,8 +48,8 @@
       <div class="project-form">
         <h2>Add/Edit Project</h2>
         <form id="projectForm" action="../php/tambahkarya.php" method="POST" enctype="multipart/form-data">
-          <label for="projectId">ID Karya:</label>
-          <input type="text" id="projectId" name="id_karya" required />
+          <!-- <label for="projectId">ID Karya:</label>
+          <input type="text" id="projectId" name="id_karya" required /> -->
 
           <label for="projectTitle">Judul Karya:</label>
           <input type="text" id="projectTitle" name="nama_karya" required />
