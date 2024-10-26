@@ -7,11 +7,12 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Fungsi untuk generate ID baru yang lebih aman
-function generateNewId($conn) {
+function generateNewId($conn)
+{
     // Cek ID terakhir
     $sql = "SELECT id_karya FROM karya ORDER BY id_karya DESC LIMIT 1";
     $result = $conn->query($sql);
-    
+
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $lastId = $row['id_karya'];
@@ -22,7 +23,7 @@ function generateNewId($conn) {
         // Jika belum ada data, mulai dari 1
         $newNumber = 1;
     }
-    
+
     // Format ID baru dengan padding 3 digit
     return 'K' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 }
@@ -32,40 +33,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Generate ID baru
         $id_karya = generateNewId($conn);
-        
+
         // Ambil data dari form
         $nama_karya = $_POST['nama_karya'];
         $nim_mhs = $_POST['nim_mhs'];
         $desc_karya = $_POST['desc_karya'];
         $tahun_rilis = $_POST['tahun_rilis'];
         $id_kategori = $_POST['id_kategori'];
-        
+
         // Handle upload gambar
-        $gambar_karya = NULL;
-        if (isset($_FILES['gambar_karya']) && $_FILES['gambar_karya']['error'] == 0) {
+        $gambar_karya = [];
+        if (isset($_FILES['gambar_karya'])) {
             $target_dir = "../uploads/";
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
-            
-            $file_extension = pathinfo($_FILES['gambar_karya']['name'], PATHINFO_EXTENSION);
-            $new_filename = $id_karya . '.' . $file_extension;
-            $target_file = $target_dir . $new_filename;
-            
-            if (move_uploaded_file($_FILES['gambar_karya']['tmp_name'], $target_file)) {
-                $gambar_karya = $new_filename;
+
+            foreach ($_FILES['gambar_karya']['tmp_name'] as $key => $tmp_name) {
+                if ($_FILES['gambar_karya']['error'][$key] == 0) {
+                    $file_extension = pathinfo($_FILES['gambar_karya']['name'][$key], PATHINFO_EXTENSION);
+                    $new_filename = $id_karya . '_' . ($key + 1) . '.' . $file_extension; // Menggunakan nomor urut untuk nama file
+                    $target_file = $target_dir . $new_filename;
+
+                    if (move_uploaded_file($tmp_name, $target_file)) {
+                        $gambar_karya[] = $new_filename; // Menyimpan nama file gambar
+                    }
+                }
             }
         }
 
+        // Gabungkan nama gambar menjadi string (jika ingin disimpan sebagai satu string di DB)
+        $gambar_karya_string = implode(',', $gambar_karya);
+
         // Insert ke database dengan prepared statement
         $stmt = $conn->prepare("INSERT INTO karya (id_karya, nama_karya, nim_mhs, desc_karya, tahun_rilis, id_kategori, gambar_karya) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        
+
         if (!$stmt) {
             throw new Exception("Prepare failed: " . $conn->error);
         }
-        
-        $stmt->bind_param("sssssss", $id_karya, $nama_karya, $nim_mhs, $desc_karya, $tahun_rilis, $id_kategori, $gambar_karya);
-        
+
+        $stmt->bind_param("sssssss", $id_karya, $nama_karya, $nim_mhs, $desc_karya, $tahun_rilis, $id_kategori, $gambar_karya_string);
+
         // Eksekusi query
         if ($stmt->execute()) {
             echo "<script>
@@ -75,9 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             throw new Exception("Error saat menambahkan data: " . $stmt->error);
         }
-        
+
         $stmt->close();
-        
     } catch (Exception $e) {
         echo "<script>
                 alert('Error: " . addslashes($e->getMessage()) . "');
@@ -183,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </select>
 
                     <label for="mainImage">Gambar Karya:</label>
-                    <input type="file" id="mainImage" name="gambar_karya" accept="image/*" required />
+                    <input type="file" id="mainImage" name="gambar_karya[]" accept="image/*" multiple required />
 
                     <button type="submit">Save Project</button>
                 </form>

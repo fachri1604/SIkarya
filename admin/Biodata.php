@@ -99,7 +99,7 @@
         <h2>Tambah/Edit Biodata Mahasiswa</h2>
         <form id="projectForm" action="../php/tambahbio.php" method="POST" enctype="multipart/form-data">
           <label for="nim">NIM:</label>
-          <input type="text" id="nim" name="nim_mhs" readonly /> <!-- Menambahkan readonly -->
+          <input type="text" id="nim" name="nim_mhs" required />
 
           <label for="nama">Nama Lengkap:</label>
           <input type="text" id="nama" name="nama_mhs" required />

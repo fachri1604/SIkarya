@@ -660,4 +660,167 @@ footer {
   background-color: #f0f0f0;
 }
 
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main container */
+.project-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 20px;
+}
+
+/* Header Section */
+.project-header {
+  grid-column: 1 / 3;
+}
+
+.project-header h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.published-date {
+  color: #777;
+  margin-top: 5px;
+}
+
+.social-share {
+  margin-top: 10px;
+}
+
+.social-share button {
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Gallery Section */
+.gallery {
+  grid-column: 1 / 3;
+}
+
+.gallery-thumbnails {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.gallery-thumbnails img {
+  width: 100px;
+  height: auto;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.gallery-thumbnails img:hover {
+  transform: scale(1.05);
+}
+
+/* Project Description */
+.project-description h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  color: #555;
+}
+
+.tags {
+  margin-top: 10px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #eee;
+  color: #333;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+/* Student Profile */
+.student-profile {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.student-profile h3 {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.report-button {
+  padding: 8px 12px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar .logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+/* Main container */
+.project-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 20px;
+}
+
+/* Footer */
+footer {
+  background: #333;
+  color: #fff;
+  padding: 40px 20px;
+}
+
 /* Karya Section End */

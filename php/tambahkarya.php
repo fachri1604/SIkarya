@@ -13,46 +13,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cek_nim = "SELECT * FROM biodata_mhs WHERE nim_mhs = '$nim_mhs'";
     $result = $conn->query($cek_nim);
 
+
+
+
     if ($result->num_rows > 0) {
-        // Proses upload gambar karya
-        $target_dir = "uploads/";
-        $target_file = $target_dir . basename($_FILES["gambar_karya"]["name"]);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        // Cek apakah kombinasi NIM dan ID kategori sudah ada di tabel karya
+        $cek_karya = "SELECT * FROM karya WHERE nim_mhs = '$nim_mhs' AND id_kategori = '$id_kategori'";
+        $result_karya = $conn->query($cek_karya);
 
-        // Cek apakah file benar-benar gambar
-        $check = getimagesize($_FILES["gambar_karya"]["tmp_name"]);
-        if ($check === false) {
-            echo "File bukan gambar.";
-            exit;
-        }
+        if ($result_karya->num_rows == 0) {
+            // Proses upload gambar karya
+            $target_dir = "uploads/";
+            $target_file = $target_dir . basename($_FILES["gambar_karya"]["name"]);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Cek ukuran file
-        if ($_FILES["gambar_karya"]["size"] > 200000000) {
-            echo "Ukuran file terlalu besar.";
-            exit;
-        }
+            // Cek apakah file benar-benar gambar
+            $check = getimagesize($_FILES["gambar_karya"]["tmp_name"]);
+            if ($check === false) {
+                echo "File bukan gambar.";
+                exit;
+            }
 
-        // Cek format gambar
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            echo "Hanya JPG, JPEG, PNG & GIF yang diperbolehkan.";
-            exit;
-        }
+            // Cek ukuran file
+            if ($_FILES["gambar_karya"]["size"] > 2000000) {
+                echo "Ukuran file terlalu besar.";
+                exit;
+            }
 
-        // Pindahkan file yang diupload ke folder
-        if (move_uploaded_file($_FILES["gambar_karya"]["tmp_name"], $target_file)) {
-            $gambar_karya = $target_file;
+            // Cek format gambar
+            if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                echo "Hanya JPG, JPEG, PNG & GIF yang diperbolehkan.";
+                exit;
+            }
 
-            // Query untuk menyimpan data karya ke tabel
-            $sql = "INSERT INTO karya (nama_karya, nim_mhs, desc_karya, tahun_rilis, id_kategori, gambar_karya) 
-                    VALUES ('$nama_karya', '$nim_mhs', '$desc_karya', '$tahun_rilis', '$id_kategori', '$gambar_karya')";
+            // Pindahkan file yang diupload ke folder
+            if (move_uploaded_file($_FILES["gambar_karya"]["tmp_name"], $target_file)) {
+                $gambar_karya = $target_file;
 
-            if ($conn->query($sql) === TRUE) {
-                echo "Karya berhasil ditambahkan";
+                // Query untuk menyimpan data karya ke tabel
+                $sql = "INSERT INTO karya (nama_karya, nim_mhs, desc_karya, tahun_rilis, id_kategori, gambar_karya) 
+                        VALUES ('$nama_karya', '$nim_mhs', '$desc_karya', '$tahun_rilis', '$id_kategori', '$gambar_karya')";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "Karya berhasil ditambahkan";
+                } else {
+                    echo "Error: " . $sql . "<br>" . $conn->error;
+                }
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "Terjadi kesalahan saat mengupload file.";
             }
         } else {
-            echo "Terjadi kesalahan saat mengupload file.";
+            echo "Karya dengan NIM yang sama dan kategori yang sama sudah ada.";
         }
     } else {
         echo "NIM tidak ditemukan di biodata_mhs. Silakan masukkan NIM yang sudah terdaftar.";

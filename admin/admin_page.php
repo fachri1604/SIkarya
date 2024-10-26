@@ -26,13 +26,10 @@
             </ul>
             <ul class="logout-mode">
                 <li><a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
-                <!-- <li class="mode">
-                    <a href="#"><i class="uil uil-moon"></i><span class="link-name">Mode Gelap</span></a>
-                    <div class="mode-toggle"><span class="switch"></span></div>
-                </li> -->
             </ul>
         </div>
     </nav>
+
     <section class="dashboard">
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
@@ -49,88 +46,105 @@
                     <h2>Galeri Karya Mahasiswa</h2>
                     <div class="card-list">
                         <?php
-                        include '../php/ambil_data.php';
                         include '../php/koneksi.php';
-                        
+
                         // Handle delete
                         if (isset($_POST['delete']) && isset($_POST['id_karya'])) {
                             $id_karya = mysqli_real_escape_string($conn, $_POST['id_karya']);
-                            
+
                             // Ambil informasi gambar sebelum menghapus
                             $query_gambar = "SELECT gambar_karya FROM karya WHERE id_karya = '$id_karya'";
                             $result_gambar = mysqli_query($conn, $query_gambar);
                             $row = mysqli_fetch_assoc($result_gambar);
-                            
+
                             // Hapus file gambar jika ada
                             if ($row && !empty($row['gambar_karya'])) {
-                                $file_path = '../php/' . $row['gambar_karya'];
-                                if (file_exists($file_path)) {
-                                    unlink($file_path);
+                                // Pecah gambar menjadi array
+                                $gambar_karya_array = explode(',', $row['gambar_karya']);
+                                foreach ($gambar_karya_array as $gambar) {
+                                    $file_path = '../uploads/' . $gambar; // Ganti '../php/' menjadi '../uploads/'
+                                    if (file_exists($file_path)) {
+                                        unlink($file_path);
+                                    }
                                 }
                             }
-                            
+
                             // Hapus record dari database
                             $query = "DELETE FROM karya WHERE id_karya = '$id_karya'";
                             if (mysqli_query($conn, $query)) {
                                 // Redirect ke halaman yang sama dengan pesan sukses
-                                header("Location: ".$_SERVER['PHP_SELF']."?status=success&message=Data berhasil dihapus");
+                                header("Location: " . $_SERVER['PHP_SELF'] . "?status=success&message=Data berhasil dihapus");
                                 exit();
                             } else {
-                                header("Location: ".$_SERVER['PHP_SELF']."?status=error&message=Gagal menghapus data");
+                                header("Location: " . $_SERVER['PHP_SELF'] . "?status=error&message=Gagal menghapus data");
                                 exit();
                             }
                         }
-                        
+
                         // Tampilkan pesan status jika ada
                         if (isset($_GET['status'])) {
                             $status = $_GET['status'];
                             $message = $_GET['message'] ?? '';
-                            
+
                             if ($status == 'success') {
                                 echo '<div class="alert alert-success">' . htmlspecialchars($message) . '</div>';
                             } else if ($status == 'error') {
                                 echo '<div class="alert alert-danger">' . htmlspecialchars($message) . '</div>';
                             }
                         }
+
+                        // Ambil data karya dari database
+                        $sql = "SELECT * FROM karya"; // Ubah sesuai kebutuhan
+                        $result = $conn->query($sql);
+                        $karya = [];
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $karya[] = $row;
+                            }
+                        }
                         ?>
-                        <!DOCTYPE html>
-                        <!-- [Previous HTML head and nav remains the same] -->
-                        <link rel="stylesheet" href="../css/admin.css" />
-                        
                         <div class="card-list">
                             <?php
                             if (!empty($karya)) {
                                 foreach ($karya as $row) {
-                                    ?>
-                                    <!-- Di dalam admin_page.php -->
-                        <div class="card-item">
-                            <div class="card-content">
-                            <img src="../uploads/<?php echo $row['gambar_karya']; ?>" alt="Gambar Karya" />
-                                <h3><?php echo $row['nama_karya']; ?></h3>
-                                <p>NIM: <?php echo $row['nim_mhs']; ?></p>
-                                <p>Deskripsi: <?php echo $row['desc_karya']; ?></p>
-                                <p>Tahun Rilis: <?php echo $row['tahun_rilis']; ?></p>
-                                <p>ID Kategori: <?php echo $row['id_kategori']; ?></p>
-                            </div>
-                            <div class="card-actions">
-                                <div class="button-group">
-                                    <a href="edit_karya.php?id_karya=<?php echo $row['id_karya']; ?>" class="edit-btn">
-                                        <button type="button">Edit</button>
-                                    </a>
-                                    <!-- Perbaikan pada form delete -->
-                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
-                                        <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
-                                        <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                                    <?php
+                                    // Ambil gambar pertama dari string gambar_karya
+                                    $gambar_karya_array = explode(',', $row['gambar_karya']);
+                                    $gambar_pertama = $gambar_karya_array[0]; // Ambil gambar pertama
+
+                            ?>
+                                    <div class="card-item">
+                                        <div class="card-content">
+                                            <img src="../uploads/<?php echo $gambar_pertama; ?>" alt="Gambar Karya" />
+                                            <h3><?php echo $row['nama_karya']; ?></h3>
+                                            <p>NIM: <?php echo $row['nim_mhs']; ?></p>
+                                            <p>Deskripsi: <?php echo $row['desc_karya']; ?></p>
+                                            <p>Tahun Rilis: <?php echo $row['tahun_rilis']; ?></p>
+                                            <p>ID Kategori: <?php echo $row['id_kategori']; ?></p>
+                                        </div>
+                                        <div class="card-actions">
+                                            <div class="button-group">
+                                                <a href="edit_karya.php?id_karya=<?php echo $row['id_karya']; ?>" class="edit-btn">
+                                                    <button type="button">Edit</button>
+                                                </a>
+                                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
+                                                    <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
+                                                    <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                            <?php
                                 }
                             } else {
                                 echo '<p>Tidak ada proyek ditemukan.</p>';
                             }
                             ?>
                         </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+</body>
 
 </html>

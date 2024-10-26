@@ -1020,3 +1020,16 @@ table img {
 .project-form button:hover {
   background-color: #007a63;
 }
+
+
+        /* Tambahkan CSS di sini untuk mengatur ukuran gambar */
+        .card-content img {
+          width: 100%;
+          /* Mengatur lebar gambar menjadi 100% dari elemen induk */
+          height: 200px;
+          /* Mengatur tinggi gambar sesuai keinginan */
+          object-fit: cover;
+          /* Memastikan gambar tidak terdistorsi dan memotong gambar jika perlu */
+      }
+
+      /* Tambahan CSS lainnya jika perlu */

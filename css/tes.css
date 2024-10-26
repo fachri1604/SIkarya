@@ -1,10 +1,10 @@
 /* Googlefont Poppins CDN Link */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 nav {
@@ -153,7 +153,7 @@ nav .navbar .links li:hover .js-sub-menu {
   background: #686d76;
 }
 .search-box .input-box::before {
-  content: "";
+  content: '';
   position: absolute;
   height: 20px;
   width: 20px;
@@ -327,7 +327,7 @@ footer {
 }
 .box .content:before {
   position: absolute;
-  content: "";
+  content: '';
   top: -10px;
   height: 2px;
   width: 100%;
@@ -335,7 +335,7 @@ footer {
 }
 .box .content:after {
   position: absolute;
-  content: "";
+  content: '';
   height: 2px;
   width: 15%;
   background: #dc5f00;
@@ -466,7 +466,7 @@ footer {
   padding: 0 10%;
   height: 100vh;
   /* justify-content: center; */
-  background: url("../assets/bg.jpg");
+  background: url('../assets/bg.jpg');
   background-size: cover;
 }
 
@@ -560,7 +560,7 @@ footer {
   padding: 0 10%;
   height: 150vh;
   justify-content: center;
-  background: url("../assets/bg.jpg");
+  background: url('../assets/bg.jpg');
   background-size: cover;
 }
 
@@ -588,25 +588,25 @@ footer {
   text-align: center;
   margin-top: 10%;
 }
-.pundak{
-  margin-left:30px;
+.pundak {
+  margin-left: 30px;
 }
 
 .pundak-kiri {
-    margin-left: 20px;
-    display: unset;
-    flex-direction: column;
-    justify-content: center;
-    width: 70%;
-    height: 50%;
+  margin-left: 20px;
+  display: unset;
+  flex-direction: column;
+  justify-content: center;
+  width: 70%;
+  height: 50%;
 }
 
 .pundak-kanan {
-    display: unset;
-    flex-direction: column;
-    width: 30%;
-    height: 50%;
-    justify-content: center;
+  display: unset;
+  flex-direction: column;
+  width: 30%;
+  height: 50%;
+  justify-content: center;
 }
 
 .pundak-kanan h2 {
@@ -614,20 +614,20 @@ footer {
 }
 
 .konten3 img {
-    align-self: center;
+  align-self: center;
 }
 
 .pundak-kanan img {
   width: 200px;
   height: 200px;
-    align-self:center;
+  align-self: center;
 }
 
 /* Detail Karya Section Start */
 
 /* Detail Section CSS */
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
 }
 
@@ -651,7 +651,7 @@ img {
   display: none;
 }
 
-.mySlides img{
+.mySlides img {
   height: 100%;
 }
 
@@ -701,7 +701,7 @@ img {
 }
 
 .row:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -736,7 +736,8 @@ img {
   .container {
     max-width: 80%;
   }
-  .prev, .next {
+  .prev,
+  .next {
     font-size: 18px;
     padding: 12px;
   }
@@ -750,7 +751,8 @@ img {
     /* margin-left: 30px; */
     max-width: 100%;
   }
-  .prev, .next {
+  .prev,
+  .next {
     font-size: 16px;
     padding: 10px;
   }
@@ -758,3 +760,156 @@ img {
     width: 33.33%;
   }
 }
+
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main container */
+.project-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 20px;
+}
+
+/* Header Section */
+.project-header {
+  grid-column: 1 / 3;
+}
+
+.project-header h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.published-date {
+  color: #777;
+  margin-top: 5px;
+}
+
+.social-share {
+  margin-top: 10px;
+}
+
+.social-share button {
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Gallery Section */
+.gallery {
+  grid-column: 1 / 3;
+}
+
+.gallery-thumbnails {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.gallery-thumbnails img {
+  width: 100px;
+  height: auto;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.gallery-thumbnails img:hover {
+  transform: scale(1.05);
+}
+
+/* Project Description */
+.project-description h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  color: #555;
+}
+
+.tags {
+  margin-top: 10px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #eee;
+  color: #333;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+/* Student Profile */
+.student-profile {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.student-profile h3 {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.report-button {
+  padding: 8px 12px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Navbar */
+
+.navbar .logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+/* Main container */
+.project-container {
+  width: 80%;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 20px;
+}
+
+/* Footer */
+
+/* Karya Section End */
