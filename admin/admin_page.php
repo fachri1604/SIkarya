@@ -105,7 +105,7 @@
                                     <!-- Di dalam admin_page.php -->
                         <div class="card-item">
                             <div class="card-content">
-                                <img src="../php/<?php echo $row['gambar_karya']; ?>" alt="Gambar Karya" />
+                            <img src="../uploads/<?php echo $row['gambar_karya']; ?>" alt="Gambar Karya" />
                                 <h3><?php echo $row['nama_karya']; ?></h3>
                                 <p>NIM: <?php echo $row['nim_mhs']; ?></p>
                                 <p>Deskripsi: <?php echo $row['desc_karya']; ?></p>
