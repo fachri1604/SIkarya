@@ -82,7 +82,7 @@
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $gambar_karya = explode(',', $row['gambar_karya'])[0]; // Mengambil gambar pertama
-                    echo "<a href='/SIKARYA2/SIkarya/detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
+                    echo "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
                     echo "<img src='uploads/" . $gambar_karya . "' alt='Card Image' />";
                     echo "<h3>" . $row['nama_karya'] . "</h3>";
                     echo "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>";
