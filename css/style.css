@@ -43,7 +43,7 @@ nav .navbar .links {
   display: flex;
 }
 nav .navbar .links li {
-  position: relative;
+  /* position: relative; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -514,8 +514,7 @@ footer {
 .content-container {
   display: flex;
   flex-direction: column;
-  padding: 35% 10%;
-  height: 100vh;
+  padding: 5% 10%;
   justify-content: center;
   background: url('../assets/bg.jpg');
   background-size: cover;
@@ -555,7 +554,7 @@ footer {
 .card-list .card-item img {
   width: 100%;
   border-radius: 8px;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
 
 .card-list .card-item {

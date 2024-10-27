@@ -76,24 +76,17 @@
         <div class="card-list">
           <?php
             include 'php/koneksi.php'; // Menghubungkan ke database
-            $sql = "SELECT id_karya, nama_karya, gambar_karya FROM karya ORDER BY tahun_rilis DESC LIMIT 4"; // Mengambil 4 karya terbaru
+            $sql = "SELECT id_karya, nama_karya, gambar_karya FROM karya ORDER BY tahun_rilis DESC";
             $result = $conn->query($sql);
-
-            $karya_list = []; // Array sementara untuk menyimpan data
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $gambar_karya = explode(',', $row['gambar_karya'])[0]; // Mengambil gambar pertama
-                    // Simpan elemen HTML dalam array, bukan langsung ditampilkan
-                    $karya_list[] = "<a href='/SIKARYA2/SIkarya/detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>"
-                                  . "<img src='uploads/" . $gambar_karya . "' alt='Card Image' />"
-                                  . "<h3>" . $row['nama_karya'] . "</h3>"
-                                  . "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>"
-                                  . "</a>";
-                }
-                // Balik urutan array dan tampilkan
-                foreach (array_reverse($karya_list) as $karya) {
-                    echo $karya;
+                    echo "<a href='/SIKARYA2/SIkarya/detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
+                    echo "<img src='uploads/" . $gambar_karya . "' alt='Card Image' />";
+                    echo "<h3>" . $row['nama_karya'] . "</h3>";
+                    echo "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>";
+                    echo "</a>";
                 }
             } else {
                 echo "<p>Tidak ada data karya yang ditemukan.</p>";
