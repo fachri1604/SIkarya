@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <link
       rel="stylesheet"
-      href="css/style.css"
+      href="./css/style.css"
     />
     <meta
       http-equiv="X-UA-Compatible"
@@ -36,7 +36,7 @@
             <i class="bx bx-x"></i>
           </div>
           <ul class="links">
-            <li><a href="index.html">Beranda</a></li>
+            <li><a href="index.php">Beranda</a></li>
             <li><a href="karya.php">Karya</a></li>
             <li><a href="login/login.html">Login</a></li>
           </ul>

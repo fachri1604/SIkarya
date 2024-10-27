@@ -912,4 +912,98 @@ img {
 
 /* Footer */
 
+body {
+  font-family: Arial, sans-serif; /* Mengatur font untuk tampilan yang lebih baik */
+}
+
+.project-container {
+  max-width: 1200px; /* Maksimum lebar kontainer */
+  margin: auto;
+  padding: 20px; /* Jarak dalam kontainer */
+  display: flex; /* Flexbox untuk tata letak */
+  flex-direction: column; /* Menuju kolom */
+}
+
+/* Style untuk slideshow */
+.slideshow-container {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+.slides {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
+.slides img {
+  width: 100%;
+  height: auto; /* Menjaga aspek rasio asli */
+  max-height: 400px; /* Atur tinggi maksimum untuk landscape */
+  object-fit: cover; /* Memastikan gambar menutupi area dengan baik */
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Style untuk deskripsi gambar */
+.caption {
+  color: #333;
+  font-size: 16px;
+  padding: 8px 12px;
+  text-align: center;
+  background-color: #f2f2f2;
+}
+
+/* Kontainer untuk layout */
+.layout {
+  display: flex; /* Flexbox untuk menata gambar, deskripsi dan biodata */
+  margin-top: 20px; /* Jarak atas dari slideshow */
+}
+
+.description {
+  flex: 2; /* Membuat deskripsi mengambil lebih banyak ruang */
+  padding: 20px; /* Jarak dalam deskripsi */
+  border: 1px solid #ccc; /* Border untuk deskripsi */
+  border-radius: 5px; /* Sudut melengkung */
+  margin-right: 20px; /* Jarak kanan dari deskripsi ke biodata */
+  background-color: #f9f9f9; /* Warna latar belakang */
+}
+
+/* Style untuk foto mahasiswa */
+.student-profile {
+  flex: 1; /* Membuat biodata mengambil lebih sedikit ruang */
+  text-align: center;
+  padding: 20px; /* Jarak dalam biodata */
+  border: 1px solid #ccc; /* Border untuk biodata */
+  border-radius: 5px; /* Sudut melengkung */
+  background-color: #f9f9f9; /* Warna latar belakang */
+}
+
+.student-profile img {
+  width: 100px; /* Atur ukuran foto mahasiswa */
+  height: 100px;
+  border-radius: 50%; /* Membuat foto bulat */
+  object-fit: cover; /* Memastikan foto menutupi area dengan baik */
+}
 /* Karya Section End */
