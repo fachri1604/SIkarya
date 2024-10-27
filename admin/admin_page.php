@@ -62,7 +62,7 @@
                                 // Pecah gambar menjadi array
                                 $gambar_karya_array = explode(',', $row['gambar_karya']);
                                 foreach ($gambar_karya_array as $gambar) {
-                                    $file_path = '../uploads/' . $gambar; // Ganti '../php/' menjadi '../uploads/'
+                                    $file_path = '../uploads/' . $gambar;
                                     if (file_exists($file_path)) {
                                         unlink($file_path);
                                     }
@@ -72,7 +72,6 @@
                             // Hapus record dari database
                             $query = "DELETE FROM karya WHERE id_karya = '$id_karya'";
                             if (mysqli_query($conn, $query)) {
-                                // Redirect ke halaman yang sama dengan pesan sukses
                                 header("Location: " . $_SERVER['PHP_SELF'] . "?status=success&message=Data berhasil dihapus");
                                 exit();
                             } else {
@@ -84,7 +83,7 @@
                         // Tampilkan pesan status jika ada
                         if (isset($_GET['status'])) {
                             $status = $_GET['status'];
-                            $message = $_GET['message'] ?? '';
+                            $message = urldecode($_GET['message'] ?? '');
 
                             if ($status == 'success') {
                                 echo '<div class="alert alert-success">' . htmlspecialchars($message) . '</div>';
@@ -107,10 +106,8 @@
                             <?php
                             if (!empty($karya)) {
                                 foreach ($karya as $row) {
-                                    // Ambil gambar pertama dari string gambar_karya
                                     $gambar_karya_array = explode(',', $row['gambar_karya']);
                                     $gambar_pertama = $gambar_karya_array[0]; // Ambil gambar pertama
-
                             ?>
                                     <div class="card-item">
                                         <div class="card-content">
@@ -145,6 +142,19 @@
             </section>
         </div>
     </section>
+
+    <script>
+        // Menampilkan pop-up berdasarkan status
+        <?php if (isset($_GET['status'])): ?>
+            var status = "<?php echo $_GET['status']; ?>";
+            var message = "<?php echo htmlspecialchars(urldecode($_GET['message'] ?? '')); ?>";
+            if (status === 'success') {
+                alert(message);
+            } else if (status === 'error') {
+                alert('Error: ' + message);
+            }
+        <?php endif; ?>
+    </script>
 </body>
 
 </html>

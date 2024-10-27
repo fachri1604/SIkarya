@@ -14,9 +14,13 @@ $query = "UPDATE karya SET nama_karya='$nama_karya', nim_mhs='$nim_mhs', desc_ka
 
 if ($conn->query($query) === TRUE) {
     header("Location: ../admin/admin_page.php?status=success&message=Data berhasil diupdate");
+    exit(); // Pastikan untuk menghentikan eksekusi skrip setelah header
 } else {
-    echo "Error updating record: " . $conn->error;
+    header("Location: ../admin/admin_page.php?status=error&message=" . urlencode("Gagal mengupdate data: " . $conn->error));
+    exit();
 }
+
+
 
 $conn->close();
 ?>

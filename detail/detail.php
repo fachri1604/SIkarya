@@ -90,6 +90,8 @@ $conn->close();
                 <img src="" alt="Foto Mahasiswa" id="foto_mahasiswa">
                 <h4>Nama Mahasiswa: <span id="mahasiswa_nama"></span></h4>
                 <h4>Prodi: <span id="prodi_mahasiswa"></span></h4>
+                <h4>Jurusan: <span id="jurusan_mahasiswa"></span></h4>
+                <h4>Email: <span id="email_mahasiswa"></span></h4>
             </div>
         </div>
     </div>
@@ -113,8 +115,9 @@ $conn->close();
                 document.getElementById('description').querySelector('p').innerText = data.desc_karya;
                 document.getElementById('mahasiswa_nama').innerText = data.nama_mhs;
                 document.getElementById('prodi_mahasiswa').innerText = data.prodi;
+                document.getElementById('jurusan_mahasiswa').innerText = data.jurusan;
                 document.getElementById('foto_mahasiswa').src = `../php/uploads1/${data.foto}`;
-
+                document.getElementById('email_mahasiswa').innerText = data.email;
                 // Mengatur slideshow gambar
                 const slideshow = document.getElementById('slideshow');
                 data.gambar_karya.forEach(gambar => {
