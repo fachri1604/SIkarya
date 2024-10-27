@@ -37,7 +37,7 @@
           </div>
           <ul class="links">
             <li><a href="index.html">Beranda</a></li>
-            <li><a href="karya.html">Karya</a></li>
+            <li><a href="karya.php">Karya</a></li>
             <li><a href="login/login.html">Login</a></li>
           </ul>
         </div>
@@ -50,7 +50,6 @@
               placeholder="Search..."
             />
             <ul id="searchResults"></ul>
-            <!-- Tempat untuk menampilkan hasil pencarian -->
           </div>
         </div>
       </div>
@@ -75,59 +74,25 @@
       >
         <h2>Galeri Karya Mahasiswa</h2>
         <div class="card-list">
-          <a
-            href="detail/detail2.html"
-            class="card-item"
-          >
-            <img
-              src="assets/karya01.png"
-              alt="Card Image"
-            />
-            <h3>Rancang bangun Website SMA NEGERI 1 RASAU JAYA</h3>
-            <div class="arrow">
-              <i class="fas fa-arrow-right card-icon"></i>
-            </div>
-          </a>
-          <a
-            href="detail/detail4.html"
-            class="card-item"
-          >
-            <img
-              src="assets/perangkat keras/7.jpg"
-              alt="Card Image"
-            />
-            <h3>Perangkat keras komputer Augmented Reality Di SMK 7 Pontianak</h3>
-            <div class="arrow">
-              <i class="fas fa-arrow-right card-icon"></i>
-            </div>
-          </a>
-          <a
-            href="detail/detail.html"
-            class="card-item"
-            data-title="aplikasi locator"
-          >
-            <img
-              src="assets/aplikasi locator.png"
-              alt="Card Image"
-            />
-            <h3>Aplikasi Locator</h3>
-            <div class="arrow">
-              <i class="fas fa-arrow-right card-icon"></i>
-            </div>
-          </a>
-          <a
-            href="detail/detail3.html"
-            class="card-item"
-          >
-            <img
-              src="assets/covid19.png"
-              alt="Card Image"
-            />
-            <h3>Web Geographic Information covid19</h3>
-            <div class="arrow">
-              <i class="fas fa-arrow-right card-icon"></i>
-            </div>
-          </a>
+          <?php
+            include 'php/koneksi.php'; // Menghubungkan ke database
+            $sql = "SELECT id_karya, nama_karya, gambar_karya FROM karya ORDER BY tahun_rilis DESC";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $gambar_karya = explode(',', $row['gambar_karya'])[0]; // Mengambil gambar pertama
+                    echo "<a href='/SIKARYA2/SIkarya/detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
+                    echo "<img src='uploads/" . $gambar_karya . "' alt='Card Image' />";
+                    echo "<h3>" . $row['nama_karya'] . "</h3>";
+                    echo "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>";
+                    echo "</a>";
+                }
+            } else {
+                echo "<p>Tidak ada data karya yang ditemukan.</p>";
+            }
+            $conn->close();
+          ?>
         </div>
       </div>
     </section>
