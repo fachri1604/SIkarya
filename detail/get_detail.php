@@ -12,7 +12,9 @@ $stmt = $conn->prepare("
         karya.gambar_karya, 
         biodata_mhs.nama_mhs,
         biodata_mhs.foto,
-        biodata_mhs.prodi
+        biodata_mhs.prodi,
+        biodata_mhs.jurusan,
+        biodata_mhs.email
     FROM 
         karya 
     JOIN 
