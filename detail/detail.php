@@ -12,7 +12,7 @@ $stmt = $conn->prepare("
     FROM 
         karya 
     JOIN 
-        biodata_mhs ON karya.nim_mhs = biodata_mhs.nim_mhs 
+        biodata_mhs ON karya.nim_mhs = biod ata_mhs.nim_mhs 
     WHERE 
         karya.id_karya = ?
 ");
