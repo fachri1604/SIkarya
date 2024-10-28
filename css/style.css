@@ -824,3 +824,65 @@ footer {
 }
 
 /* Karya Section End */
+
+/* CSS untuk filter */
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+.filter-container label {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+}
+
+.filter-container select, .filter-container button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.filter-container select {
+  background-color: #fff;
+  color: #333;
+}
+
+.filter-container select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.filter-container button {
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-container label, .filter-container select, .filter-container button {
+    width: 100%;
+    text-align: center;
+  }
+}
