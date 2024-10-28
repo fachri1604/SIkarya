@@ -17,8 +17,8 @@
                     <i class="bx bx-x"></i>
                 </div>
                 <ul class="links">
-                    <li><a href="../index.php">Beranda</a></li>
-                    <li><a href="../karya.html">Karya</a></li>
+                    <li><a href="../beranda.php">Beranda</a></li>
+                    <li><a href="../karya.php">Karya</a></li>
                     <li><a href="login/login.html">Login</a></li>
                 </ul>
             </div>
