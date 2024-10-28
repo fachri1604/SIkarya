@@ -25,7 +25,7 @@
     <title>SIKARYA</title>
   </head>
   <body>
-    <!-- Header Section Start -->
+    <!-- Header Section -->
     <nav>
       <div class="navbar">
         <i class="bx bx-menu"></i>
@@ -54,34 +54,67 @@
         </div>
       </div>
     </nav>
-    <script src="js/navbar.js"></script>
-    <script src="js/search.js"></script>
-    <!-- Header Section End -->
 
-    <!-- Content Section Start -->
+    <!-- Filter Section -->
+    <div class="filter-container">
+      <label for="categoryFilter">Kategori:</label>
+      <select id="categoryFilter" name="categoryFilter">
+        <option value="">Semua Kategori</option>
+        <option value="1">PBL</option>
+        <option value="2">Tugas Akhir</option>
+        <option value="3">Final Project</option>
+      </select>
+
+      <label for="yearFilter">Tahun Rilis:</label>
+      <select id="yearFilter" name="yearFilter">
+        <option value="">Semua Tahun</option>
+        <?php
+          $currentYear = date("Y");
+          for ($year = $currentYear; $year >= 2000; $year--) {
+            echo "<option value='$year'>$year</option>";
+          }
+        ?>
+      </select>
+
+      <button onclick="applyFilters()">Filter</button>
+    </div>
+
+    <!-- Content Section -->
     <section class="content-container">
-      <div
-        class="konten1"
-        id="beranda"
-      >
-        <h2>Galeri Hasil Karya Mahasiswa</h2>
-        <h2>Platform Untuk Menampilkan Karya Ilmiah dan Tugas Akhir Mahasiswa</h2>
-      </div>
-
-      <div
-        class="konten2"
-        id="karya"
-      >
+      <div class="konten2" id="karya">
         <h2>Galeri Karya Mahasiswa</h2>
         <div class="card-list">
           <?php
-            include 'php/koneksi.php'; // Menghubungkan ke database
-            $sql = "SELECT id_karya, nama_karya, gambar_karya FROM karya ORDER BY tahun_rilis DESC";
+            include 'php/koneksi.php';
+
+            // Mendapatkan nilai filter dari URL
+            $kategori = isset($_GET['kategori']) ? $_GET['kategori'] : '';
+            $year = isset($_GET['year']) ? $_GET['year'] : '';
+
+            // Membuat query SQL dasar
+            $sql = "SELECT id_karya, nama_karya, gambar_karya FROM karya";
+
+            // Menambahkan kondisi WHERE jika filter diterapkan
+            $conditions = [];
+            if (!empty($kategori)) {
+              $conditions[] = "id_kategori = '$kategori'";
+            }
+            if (!empty($year)) {
+              $conditions[] = "tahun_rilis = '$year'";
+            }
+
+            // Menggabungkan kondisi jika ada
+            if (!empty($conditions)) {
+              $sql .= " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // Mengurutkan berdasarkan tahun rilis
+            $sql .= " ORDER BY tahun_rilis DESC";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $gambar_karya = explode(',', $row['gambar_karya'])[0]; // Mengambil gambar pertama
+                    $gambar_karya = explode(',', $row['gambar_karya'])[0];
                     echo "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
                     echo "<img src='uploads/" . $gambar_karya . "' alt='Card Image' />";
                     echo "<h3>" . $row['nama_karya'] . "</h3>";
@@ -96,7 +129,6 @@
         </div>
       </div>
     </section>
-    <!-- Content Section End -->
 
     <!-- Footer Section Start -->
     <footer>
@@ -170,5 +202,8 @@
       </div>
     </footer>
     <!-- Footer Section End -->
+
+    <!-- JavaScript -->
+    <script src="js/filter.js"></script>
   </body>
 </html>
