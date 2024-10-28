@@ -10,6 +10,11 @@
       rel="stylesheet"
       href="./css/style.css"
     />
+    <link
+      rel="stylesheet"
+      href="./css/filter.css"
+    />
+
     <meta
       http-equiv="X-UA-Compatible"
       content="IE=edge"
@@ -56,7 +61,8 @@
     </nav>
 
     <!-- Filter Section -->
-    <div class="filter-container">
+    <section class="content-container">
+      <div class="konten2" id="karya">
       <label for="categoryFilter">Kategori:</label>
       <select id="categoryFilter" name="categoryFilter">
         <option value="">Semua Kategori</option>
@@ -70,18 +76,15 @@
         <option value="">Semua Tahun</option>
         <?php
           $currentYear = date("Y");
-          for ($year = $currentYear; $year >= 2000; $year--) {
+          for ($year = $currentYear; $year >= 2020; $year--) {
             echo "<option value='$year'>$year</option>";
           }
         ?>
       </select>
 
       <button onclick="applyFilters()">Filter</button>
-    </div>
 
     <!-- Content Section -->
-    <section class="content-container">
-      <div class="konten2" id="karya">
         <h2>Galeri Karya Mahasiswa</h2>
         <div class="card-list">
           <?php
