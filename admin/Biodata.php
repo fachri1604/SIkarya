@@ -32,7 +32,7 @@
 
   <section class="dashboard">
     <div class="top">
-      <i class="uil uil-bars sidebar-toggle"></i>
+      <!-- <i class="uil uil-bars sidebar-toggle"></i> -->
     </div>
 
     <div class="dash-content">

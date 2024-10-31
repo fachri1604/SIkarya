@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Karya</title>
     <link rel="stylesheet" href="../css/tes.css">
 </head>
+
 <body>
-<nav>
+    <nav>
         <div class="navbar">
             <i class="bx bx-menu"></i>
             <div class="logo"><a href="index.html">SiKarya</a></div>
@@ -17,8 +19,8 @@
                     <i class="bx bx-x"></i>
                 </div>
                 <ul class="links">
-                    <li><a href="../index.php">Beranda</a></li>
-                    <li><a href="../karya.html">Karya</a></li>
+                    <li><a href="../beranda.php">Beranda</a></li>
+                    <li><a href="../karya.php">Karya</a></li>
                     <li><a href="login/login.html">Login</a></li>
                 </ul>
             </div>
@@ -53,6 +55,7 @@
                 <h4>Prodi: <span id="prodi_mahasiswa"></span></h4>
                 <h4>Jurusan: <span id="jurusan_mahasiswa"></span></h4>
                 <h4>Email: <span id="email_mahasiswa"></span></h4>
+                <h4>Tahun Rilis: <span id="tahun_rilis"></span></h4>
             </div>
         </div>
     </div>
@@ -79,6 +82,7 @@
                 document.getElementById('jurusan_mahasiswa').innerText = data.jurusan;
                 document.getElementById('foto_mahasiswa').src = `../php/uploads1/${data.foto}`;
                 document.getElementById('email_mahasiswa').innerText = data.email;
+                document.getElementById('tahun_rilis').innerText = data.tahun_rilis;
                 // Mengatur slideshow gambar
                 const slideshow = document.getElementById('slideshow');
                 data.gambar_karya.forEach(gambar => {
@@ -101,8 +105,12 @@
 
                 function showSlides(n) {
                     let slides = document.getElementsByClassName("slides");
-                    if (n > slides.length) { slideIndex = 1; }
-                    if (n < 1) { slideIndex = slides.length; }
+                    if (n > slides.length) {
+                        slideIndex = 1;
+                    }
+                    if (n < 1) {
+                        slideIndex = slides.length;
+                    }
 
                     for (let i = 0; i < slides.length; i++) {
                         slides[i].style.display = "none";
@@ -127,7 +135,7 @@
             .catch(error => console.error('Error fetching data:', error));
     </script>
 
-<footer>
+    <footer>
         <div class="main-content">
             <div class="left box">
                 <h2>Tentang Kami</h2>
@@ -198,4 +206,5 @@
         </div>
     </footer>
 </body>
+
 </html>

@@ -9,7 +9,8 @@ $stmt = $conn->prepare("
     SELECT 
         karya.nama_karya, 
         karya.desc_karya, 
-        karya.gambar_karya, 
+        karya.gambar_karya,
+        karya.tahun_rilis,
         biodata_mhs.nama_mhs,
         biodata_mhs.foto,
         biodata_mhs.prodi,
@@ -41,4 +42,3 @@ $conn->close();
 // Mengirim data ke format JSON
 header('Content-Type: application/json');
 echo json_encode($data);
-?>

@@ -36,12 +36,12 @@
             <i class="bx bx-x"></i>
           </div>
           <ul class="links">
-            <li><a href="../index.php">Beranda</a></li>
-            <li><a href="../karya.html">Karya</a></li>
+            <li><a href="../beranda.php">Beranda</a></li>
+            <li><a href="../karya.php">Karya</a></li>
           </ul>
         </div>
         <div class="search-box">
-          <i class="bx bx-search"></i>
+          <!-- <i class="bx bx-search"></i> -->
           <div class="input-box">
             <input
               type="text"
@@ -141,13 +141,10 @@
       <!-- Footer Bottom -->
       <div class="bottom">
         <center>
-          <span class="credit">Created By 
-            <a href="https://polnep.ac.id/">POLNEP</a> | 
-          </span> 
+          <span class="credit">Created By <a href="https://polnep.ac.id/">POLNEP</a> | </span>
           <span class="far fa-copyright"></span><span> 2020 All rights reserved.</span>
         </center>
       </div>
-
     </footer>
 
     <!-- JavaScript -->
@@ -177,18 +174,17 @@
       }
 
       // Tambahkan event listener untuk tekan Enter pada input username dan password
-      document.getElementById('username').addEventListener('keypress', function(event) {
+      document.getElementById('username').addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
           login();
         }
       });
 
-      document.getElementById('password').addEventListener('keypress', function(event) {
+      document.getElementById('password').addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
           login();
         }
       });
     </script>
-
   </body>
 </html>

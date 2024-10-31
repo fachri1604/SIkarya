@@ -8,36 +8,74 @@
     margin: 0 auto;          
 } */
 
+/* frontend */
 .content-container label {
-    margin-right: 10px;
-    font-weight: bold;
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 .content-container select {
-    margin-right: 15px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s;
+  margin-right: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
 
 .content-container select:focus {
-    border-color: #007bff;
-    outline: none;
+  border-color: #007bff;
+  outline: none;
 }
 
 .content-container button {
-    padding: 10px 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5% 0 5% 0;
 }
 
 .content-container button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
+}
+
+/* Filter kategori backend */
+.content-container label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.content-container select {
+  margin-right: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.content-container select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.content-container button {
+  padding: 10px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5% 0 5% 0;
+}
+
+.content-container button:hover {
+  background-color: #0056b3;
 }
