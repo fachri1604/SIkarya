@@ -849,7 +849,7 @@ img {
 
 .card-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 3fr);
   gap: 20px;
   padding: 20px;
 }
@@ -930,7 +930,7 @@ img {
 }
 
 .delete-btn:hover {
-  background-color: #dc2626; Tailwind's red-600
+  background-color: #dc2626;
 
 }
 @media (max-width: 1200px) {

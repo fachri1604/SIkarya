@@ -34,10 +34,13 @@
         <div class="top">
             <div class="search-box">
                 <i class="uil uil-search"></i>
-                <input type="text" placeholder="Cari di sini..." />
+                <form action="admin_page.php" method="GET" class="search-form">
+                    <input type="text" name="search" placeholder="Cari di sini..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+                </form>
             </div>
             <img src="images/profile.jpg" alt="" />
         </div>
+
         <!-- Filter Section -->
         <section class="content-container">
             <div class="konten2" id="karya">
@@ -114,6 +117,10 @@
 
                                 // Fetch data for the current page
                                 $sql = "SELECT * FROM karya LIMIT $limit OFFSET $offset";
+                                if (isset($_GET['search'])) {
+                                    $search = mysqli_real_escape_string($conn, $_GET['search']);
+                                    $sql = "SELECT * FROM karya WHERE nama_karya LIKE '%$search%' LIMIT $limit OFFSET $offset";
+                                }
                                 $result = $conn->query($sql);
                                 $karya = [];
                                 if ($result->num_rows > 0) {
