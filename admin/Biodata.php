@@ -23,9 +23,10 @@
         <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
         <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
         <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
+        <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name">Admin Desk</span></a></li>
       </ul>
       <ul class="logout-mode">
-        <li><a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
+        <li><a href="../login/login.php"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
       </ul>
     </div>
   </nav>

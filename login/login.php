@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <meta charset="UTF-8" />
@@ -9,12 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
 </head>
+
 <body>
     <!-- Header Section Start -->
     <nav>
         <div class="navbar">
             <i class="bx bx-menu"></i>
-            <div class="logo"><a href="#">SiKarya</a></div>
+            <div class="logo"><a href="beranda.php">SiKarya</a></div>
             <div class="nav-links">
                 <div class="sidebar-logo">
                     <span class="logo-name">SiKarya</span>
@@ -25,12 +27,14 @@
                     <li><a href="../karya.php">Karya</a></li>
                 </ul>
             </div>
-            <div class="search-box">
-                <div class="input-box">
-                    <input type="text" placeholder="Search..." />
-                </div>
-            </div>
+            <!-- <div class="search-box">
+        <i class="bx bx-search"></i>
+        <div class="input-box">
+          <input type="text" id="searchInput" placeholder="Search..." />
+          <ul id="searchResults"></ul>
         </div>
+      </div>
+    </div> -->
     </nav>
     <!-- Header Section End -->
 
@@ -153,4 +157,5 @@
         </div>
     </footer>
 </body>
+
 </html>

@@ -21,7 +21,7 @@
                 <ul class="links">
                     <li><a href="../beranda.php">Beranda</a></li>
                     <li><a href="../karya.php">Karya</a></li>
-                    <li><a href="login/login.html">Login</a></li>
+                    <li><a href="../login/login.php">Login</a></li>
                 </ul>
             </div>
             <div class="search-box">

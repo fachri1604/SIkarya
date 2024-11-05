@@ -25,16 +25,16 @@
         <ul class="links">
           <li><a href="beranda.php">Beranda</a></li>
           <li><a href="karya.php">Karya</a></li>
-          <li><a href="login/login.html">Login</a></li>
+          <li><a href="login/login.php">Login</a></li>
         </ul>
       </div>
-      <div class="search-box">
+      <!-- <div class="search-box">
         <i class="bx bx-search"></i>
         <div class="input-box">
           <input type="text" id="searchInput" placeholder="Search..." />
           <ul id="searchResults"></ul>
         </div>
-      </div>
+      </div> -->
     </div>
   </nav>
   <script src="js/navbar.js"></script>
@@ -66,9 +66,17 @@
       $data = json_decode($response, true);
 
       if (isset($data['success']) && $data['success']) {
+        // Sort data by the 'id_karya' or another field for most recent data
+        usort($data['data'], function ($a, $b) {
+          return $b['id_karya'] - $a['id_karya']; // Sort descending by 'id_karya'
+        });
+
+        // Limit to 4 items
+        $limitedData = array_slice($data['data'], 0, 4);
+
         echo "<div class='card-list'>";
 
-        foreach ($data['data'] as $row) {
+        foreach ($limitedData as $row) {
           $gambar_karya = isset($row['gambar_karya']) && $row['gambar_karya'] ? explode(',', $row['gambar_karya'])[0] : 'default.jpg';
           echo "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
           echo "<img src='uploads/" . htmlspecialchars($gambar_karya) . "' alt='Card Image' />";
@@ -84,6 +92,7 @@
       }
       ?>
     </div>
+
   </section>
   <!-- Content Section End -->
 
