@@ -43,29 +43,26 @@
   <!-- Filter Section -->
   <section class="content-container">
     <div class="konten2" id="karya">
-    <form id="filterForm" action="karya.php" method="GET">
-    <label for="categoryFilter">Kategori:</label>
-    <select id="categoryFilter" name="id_kategori">
+      <label for="categoryFilter">Kategori:</label>
+      <select id="categoryFilter" name="categoryFilter" onchange="this.form.submit()">
         <option value="">Semua Kategori</option>
         <option value="1">PBL</option>
         <option value="2">Tugas Akhir</option>
         <option value="3">Final Project</option>
-    </select>
+      </select>
 
-    <label for="yearFilter">Tahun Rilis:</label>
-    <select id="yearFilter" name="tahun_rilis">
+      <label for="yearFilter">Tahun Rilis:</label>
+      <select id="yearFilter" name="yearFilter" onchange="this.form.submit()">
         <option value="">Semua Tahun</option>
         <?php
         $currentYear = date("Y");
         for ($year = $currentYear; $year >= 2020; $year--) {
-            echo "<option value='$year'>$year</option>";
+          echo "<option value='$year'>$year</option>";
         }
         ?>
-    </select>
+      </select>
 
-    <button type="submit">Filter</button>
-</form>
-
+      <button onclick="applyFilters()">Filter</button>
 
       <!-- Content Section -->
       <h2>Galeri Karya Mahasiswa</h2>
