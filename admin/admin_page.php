@@ -20,9 +20,10 @@
         </div>
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
-                <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
-                <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Biodata Mahasiswa</span></a></li>
+            <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
+        <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
+        <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
+        <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name"></span></a></li>
             </ul>
             <ul class="logout-mode">
                 <li><a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
@@ -32,13 +33,35 @@
 
     <section class="dashboard">
         <div class="top">
-            <i class="uil uil-bars sidebar-toggle"></i>
             <div class="search-box">
                 <i class="uil uil-search"></i>
                 <input type="text" placeholder="Cari di sini..." />
             </div>
             <img src="images/profile.jpg" alt="" />
         </div>
+        <!-- Filter Section -->
+        <section class="content-container">
+            <div class="konten2" id="karya">
+                <label for="categoryFilter">Kategori:</label>
+                <select id="categoryFilter" name="categoryFilter" onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    <option value="1">PBL</option>
+                    <option value="2">Tugas Akhir</option>
+                    <option value="3">Final Project</option>
+                </select>
+
+                <label for="yearFilter">Tahun Rilis:</label>
+                <select id="yearFilter" name="yearFilter" onchange="this.form.submit()">
+                    <option value="">Semua Tahun</option>
+                    <?php
+                    $currentYear = date("Y");
+                    for ($year = $currentYear; $year >= 2020; $year--) {
+                        echo "<option value='$year'>$year</option>";
+                    }
+                    ?>
+                </select>
+
+                <button onclick="applyFilters()">Filter</button>
 
         <div class="content">
             <section class="karya-container">
@@ -125,7 +148,7 @@
                                                 </a>
                                                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
                                                     <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
-                                                    <button type="button" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
+                                                    <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
                                                 </form>
                                             </div>
                                         </div>
