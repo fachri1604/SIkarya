@@ -50,36 +50,39 @@
 
     <div class="konten2" id="karya">
       <h2>Galeri Karya Mahasiswa</h2>
-      <div class="card-list">
-        <?php
-        include 'php/koneksi.php'; // Menghubungkan ke database
-        // Update query untuk mengambil tahun_rilis
-        $sql = "SELECT id_karya, nama_karya, gambar_karya, tahun_rilis FROM karya ORDER BY tahun_rilis DESC LIMIT 4"; // Mengambil 4 karya terbaru
-        $result = $conn->query($sql);
+      <?php
+      $url = "https://raishaapi1.v-project.my.id/api/karya";
 
-        $karya_list = []; // Array sementara untuk menyimpan data
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $response = curl_exec($ch);
 
-        if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            $gambar_karya = explode(',', $row['gambar_karya'])[0]; // Mengambil gambar pertama
-            // Simpan elemen HTML dalam array, bukan langsung ditampilkan
-            $karya_list[] = "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>"
-              . "<img src='uploads/" . $gambar_karya . "' alt='Card Image' />"
-              . "<h3>" . $row['nama_karya'] . "</h3>"
-              . "<p>Tahun Rilis: " . $row['tahun_rilis'] . "</p>" // Menambahkan tahun rilis
-              . "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>"
-              . "</a>";
-          }
-          // Balik urutan array dan tampilkan
-          foreach (array_reverse($karya_list) as $karya) {
-            echo $karya;
-          }
-        } else {
-          echo "<p>Tidak ada data karya yang ditemukan.</p>";
+      if (curl_errno($ch)) {
+        die('Error: ' . curl_error($ch));
+      }
+      curl_close($ch);
+
+      $data = json_decode($response, true);
+
+      if (isset($data['success']) && $data['success']) {
+        echo "<div class='card-list'>";
+
+        foreach ($data['data'] as $row) {
+          $gambar_karya = isset($row['gambar_karya']) && $row['gambar_karya'] ? explode(',', $row['gambar_karya'])[0] : 'default.jpg';
+          echo "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
+          echo "<img src='uploads/" . htmlspecialchars($gambar_karya) . "' alt='Card Image' />";
+          echo "<h3>" . htmlspecialchars($row['nama_karya']) . "</h3>";
+          echo "<p>Tahun Rilis: " . htmlspecialchars($row['tahun_rilis']) . "</p>";
+          echo "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>";
+          echo "</a>";
         }
-        $conn->close();
-        ?>
-      </div>
+
+        echo "</div>"; // Close card-list
+      } else {
+        echo "<p>Tidak ada data karya yang ditemukan.</p>";
+      }
+      ?>
     </div>
   </section>
   <!-- Content Section End -->

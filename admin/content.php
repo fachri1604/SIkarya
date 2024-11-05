@@ -1,97 +1,97 @@
 <?php
 // content.php
-include '../php/koneksi.php';
+// include '../php/koneksi.php';
 
-// Tambahkan ini di awal file untuk debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// // Tambahkan ini di awal file untuk debugging
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
-// Fungsi untuk generate ID baru yang lebih aman
-function generateNewId($conn)
-{
-    // Cek ID terakhir
-    $sql = "SELECT id_karya FROM karya ORDER BY id_karya DESC LIMIT 1";
-    $result = $conn->query($sql);
+// // Fungsi untuk generate ID baru yang lebih aman
+// function generateNewId($conn)
+// {
+//     // Cek ID terakhir
+//     $sql = "SELECT id_karya FROM karya ORDER BY id_karya DESC LIMIT 1";
+//     $result = $conn->query($sql);
 
-    if ($result && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $lastId = $row['id_karya'];
-        // Ambil angka dari ID terakhir
-        $number = intval(substr($lastId, 1));
-        $newNumber = $number + 1;
-    } else {
-        // Jika belum ada data, mulai dari 1
-        $newNumber = 1;
-    }
+//     if ($result && $result->num_rows > 0) {
+//         $row = $result->fetch_assoc();
+//         $lastId = $row['id_karya'];
+//         // Ambil angka dari ID terakhir
+//         $number = intval(substr($lastId, 1));
+//         $newNumber = $number + 1;
+//     } else {
+//         // Jika belum ada data, mulai dari 1
+//         $newNumber = 1;
+//     }
 
-    // Format ID baru dengan padding 3 digit
-    return 'K' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
-}
+//     // Format ID baru dengan padding 3 digit
+//     return 'K' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+// }
 
-// Proses form jika di-submit
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        // Generate ID baru
-        $id_karya = generateNewId($conn);
+// // Proses form jika di-submit
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     try {
+//         // Generate ID baru
+//         $id_karya = generateNewId($conn);
 
-        // Ambil data dari form
-        $nama_karya = $_POST['nama_karya'];
-        $nim_mhs = $_POST['nim_mhs'];
-        $desc_karya = $_POST['desc_karya'];
-        $tahun_rilis = $_POST['tahun_rilis'];
-        $id_kategori = $_POST['id_kategori'];
+//         // Ambil data dari form
+//         $nama_karya = $_POST['nama_karya'];
+//         $nim_mhs = $_POST['nim_mhs'];
+//         $desc_karya = $_POST['desc_karya'];
+//         $tahun_rilis = $_POST['tahun_rilis'];
+//         $id_kategori = $_POST['id_kategori'];
 
-        // Handle upload gambar
-        $gambar_karya = [];
-        if (isset($_FILES['gambar_karya'])) {
-            $target_dir = "../uploads/";
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
+//         // Handle upload gambar
+//         $gambar_karya = [];
+//         if (isset($_FILES['gambar_karya'])) {
+//             $target_dir = "../uploads/";
+//             if (!file_exists($target_dir)) {
+//                 mkdir($target_dir, 0777, true);
+//             }
 
-            foreach ($_FILES['gambar_karya']['tmp_name'] as $key => $tmp_name) {
-                if ($_FILES['gambar_karya']['error'][$key] == 0) {
-                    $file_extension = pathinfo($_FILES['gambar_karya']['name'][$key], PATHINFO_EXTENSION);
-                    $new_filename = $id_karya . '_' . ($key + 1) . '.' . $file_extension; // Menggunakan nomor urut untuk nama file
-                    $target_file = $target_dir . $new_filename;
+//             foreach ($_FILES['gambar_karya']['tmp_name'] as $key => $tmp_name) {
+//                 if ($_FILES['gambar_karya']['error'][$key] == 0) {
+//                     $file_extension = pathinfo($_FILES['gambar_karya']['name'][$key], PATHINFO_EXTENSION);
+//                     $new_filename = $id_karya . '_' . ($key + 1) . '.' . $file_extension; // Menggunakan nomor urut untuk nama file
+//                     $target_file = $target_dir . $new_filename;
 
-                    if (move_uploaded_file($tmp_name, $target_file)) {
-                        $gambar_karya[] = $new_filename; // Menyimpan nama file gambar
-                    }
-                }
-            }
-        }
+//                     if (move_uploaded_file($tmp_name, $target_file)) {
+//                         $gambar_karya[] = $new_filename; // Menyimpan nama file gambar
+//                     }
+//                 }
+//             }
+//         }
 
-        // Gabungkan nama gambar menjadi string (jika ingin disimpan sebagai satu string di DB)
-        $gambar_karya_string = implode(',', $gambar_karya);
+//         // Gabungkan nama gambar menjadi string (jika ingin disimpan sebagai satu string di DB)
+//         $gambar_karya_string = implode(',', $gambar_karya);
 
-        // Insert ke database dengan prepared statement
-        $stmt = $conn->prepare("INSERT INTO karya (id_karya, nama_karya, nim_mhs, desc_karya, tahun_rilis, id_kategori, gambar_karya) VALUES (?, ?, ?, ?, ?, ?, ?)");
+//         // Insert ke database dengan prepared statement
+//         $stmt = $conn->prepare("INSERT INTO karya (id_karya, nama_karya, nim_mhs, desc_karya, tahun_rilis, id_kategori, gambar_karya) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-        if (!$stmt) {
-            throw new Exception("Prepare failed: " . $conn->error);
-        }
+//         if (!$stmt) {
+//             throw new Exception("Prepare failed: " . $conn->error);
+//         }
 
-        $stmt->bind_param("sssssss", $id_karya, $nama_karya, $nim_mhs, $desc_karya, $tahun_rilis, $id_kategori, $gambar_karya_string);
+//         $stmt->bind_param("sssssss", $id_karya, $nama_karya, $nim_mhs, $desc_karya, $tahun_rilis, $id_kategori, $gambar_karya_string);
 
-        // Eksekusi query
-        if ($stmt->execute()) {
-            echo "<script>
-                    alert('Karya berhasil ditambahkan!');
-                    window.location.href = 'admin_page.php';
-                  </script>";
-        } else {
-            throw new Exception("Error saat menambahkan data: " . $stmt->error);
-        }
+//         // Eksekusi query
+//         if ($stmt->execute()) {
+//             echo "<script>
+//                     alert('Karya berhasil ditambahkan!');
+//                     window.location.href = 'admin_page.php';
+//                   </script>";
+//         } else {
+//             throw new Exception("Error saat menambahkan data: " . $stmt->error);
+//         }
 
-        $stmt->close();
-    } catch (Exception $e) {
-        echo "<script>
-                alert('Error: " . addslashes($e->getMessage()) . "');
-                window.history.back();
-              </script>";
-    }
-}
+//         $stmt->close();
+//     } catch (Exception $e) {
+//         echo "<script>
+//                 alert('Error: " . addslashes($e->getMessage()) . "');
+//                 window.history.back();
+//               </script>";
+//     }
+// }
 ?>
 
 <!DOCTYPE html>
@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="overview"></div>
             <div class="project-form">
                 <h2>Add/Edit Project</h2>
-                <form id="projectForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data">
+                <form id="projectForm" action="../php/tambahkarya.php" method="POST" enctype="multipart/form-data">
                     <label for="projectTitle">Judul Karya:</label>
                     <input type="text" id="projectTitle" name="nama_karya" required />
 
@@ -151,19 +151,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select id="nim" name="nim_mhs" required>
                         <option value="">Pilih NIM</option>
                         <?php
-                        // Query untuk mendapatkan NIM dari tabel biodata_mhs
-                        $sql = "SELECT nim_mhs, nama_mhs FROM biodata_mhs";
-                        $result = $conn->query($sql);
+                        // API endpoint for fetching student data
+                        $url = "https://raishaapi1.v-project.my.id/api/biodata"; // Adjust this URL to point to your actual API endpoint for students
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $response = curl_exec($ch);
 
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='" . $row['nim_mhs'] . "'>" . $row['nim_mhs'] . " - " . $row['nama_mhs'] . "</option>";
+                        if (curl_errno($ch)) {
+                            die('Error: ' . curl_error($ch));
+                        }
+                        curl_close($ch);
+
+                        $data = json_decode($response, true);
+
+                        // Check if the response is successful and has biodata
+                        // Check if the response is successful
+                        if (isset($data['success']) && $data['success']) {
+                            // Loop through the categories and create options
+                            foreach ($data['data'] as $row) {
+                                echo "<option value='" . htmlspecialchars($row['nim_mhs']) . "'>" . htmlspecialchars($row['nim_mhs']) . " - " . htmlspecialchars($row['nama_mhs']) . "</option>";
                             }
                         } else {
-                            echo "<option value=''>Tidak ada data mahasiswa</option>";
+                            echo "<option value=''>Tidak ada data nim</option>";
                         }
                         ?>
                     </select>
+
 
                     <label for="projectDescription">Deskripsi Karya:</label>
                     <textarea id="projectDescription" name="desc_karya" required></textarea>
@@ -175,13 +189,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select id="categoryId" name="id_kategori" required>
                         <option value="">Pilih Kategori</option>
                         <?php
-                        // Query untuk mendapatkan ID Kategori dari tabel kategori
-                        $sql = "SELECT id_kategori, jenis_karya FROM kategori";
-                        $result = $conn->query($sql);
+                        // API endpoint for categories
+                        $url = "https://raishaapi1.v-project.my.id/api/kategori";
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $response = curl_exec($ch);
 
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<option value='" . $row['id_kategori'] . "'>" . $row['id_kategori'] . " - " . $row['jenis_karya'] . "</option>";
+                        if (curl_errno($ch)) {
+                            die('Error: ' . curl_error($ch));
+                        }
+                        curl_close($ch);
+
+                        $data = json_decode($response, true);
+
+                        // Check if the response is successful
+                        if (isset($data['success']) && $data['success']) {
+                            // Loop through the categories and create options
+                            foreach ($data['data'] as $row) {
+                                echo "<option value='" . htmlspecialchars($row['id_kategori']) . "'>" . htmlspecialchars($row['id_kategori']) . " - " . htmlspecialchars($row['jenis_karya']) . "</option>";
                             }
                         } else {
                             echo "<option value=''>Tidak ada data kategori</option>";
@@ -189,8 +215,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
                     </select>
 
+
                     <label for="mainImage">Gambar Karya:</label>
-                    <input type="file" id="mainImage" name="gambar_karya[]" accept="image/*" multiple required />
+                    <input type="file" id="image" name="image" multiple required />
 
                     <button type="submit">Save Project</button>
                 </form>

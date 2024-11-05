@@ -1,48 +1,87 @@
 <?php
-include 'koneksi.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $url = "https://raishaapi1.v-project.my.id/api/biodata/create-biodata";
 
-$target_dir = "uploads1/";
-$nim_mhs = $_POST['nim_mhs'];
-$nama_mhs = $_POST['nama_mhs'];
-$prodi = $_POST['prodi'];
-$jurusan = $_POST['jurusan'];
-$email = $_POST['email'];
-$no_hp = $_POST['no_hp'];
-$foto = basename($_FILES["foto"]["name"]);
-
-// Cek jika NIM sudah ada
-$sql_check = "SELECT * FROM biodata_mhs WHERE nim_mhs = '$nim_mhs'";
-$result_check = $conn->query($sql_check);
-
-if ($result_check->num_rows > 0) {
-    // Mode Update jika NIM ada
-    $sql = "UPDATE biodata_mhs SET 
-                nama_mhs='$nama_mhs', 
-                prodi='$prodi', 
-                jurusan='$jurusan', 
-                email='$email', 
-                no_hp='$no_hp'";
-
-    // Jika ada foto yang diunggah, update foto
-    if ($_FILES["foto"]["size"] > 0) { // Cek apakah ada file yang diupload
-        move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $foto);
-        $sql .= ", foto='$foto'"; // Tambahkan foto jika ada yang diunggah
+    // Validasi file upload
+    if (!isset($_FILES["foto"]) || $_FILES["foto"]["error"] != 0) {
+        die("Error: File foto wajib diupload!");
     }
 
-    $sql .= " WHERE nim_mhs='$nim_mhs'";
-    $action_message = "Data berhasil diperbarui.";
-} else {
-    // Mode Tambah jika NIM tidak ada
-    if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $foto)) {
-        $sql = "INSERT INTO biodata_mhs (nim_mhs, nama_mhs, prodi, jurusan, email, no_hp, foto)
-                VALUES ('$nim_mhs', '$nama_mhs', '$prodi', '$jurusan', '$email', '$no_hp', '$foto')";
-        $action_message = "Data berhasil ditambahkan.";
+    // Validasi tipe file
+    $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+    $filename = $_FILES["foto"]["name"];
+    $filetype = $_FILES["foto"]["type"];
+    $filesize = $_FILES["foto"]["size"];
+
+    // Verifikasi ekstensi file
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    if (!array_key_exists($ext, $allowed)) {
+        die("Error: Format file tidak valid! Hanya JPG, JPEG, PNG, dan GIF yang diperbolehkan.");
+    }
+
+    // Verifikasi ukuran file - maksimal 2MB
+    $maxsize = 2 * 1024 * 1024;
+    if ($filesize > $maxsize) {
+        die("Error: Ukuran file terlalu besar! Maksimal 2MB.");
+    }
+
+    // Verifikasi tipe MIME
+    if (!in_array($filetype, $allowed)) {
+        die("Error: Tipe file tidak valid!");
+    }
+
+    // Siapkan data untuk dikirim
+    $fields = array(
+        'nim_mhs' => $_POST['nim_mhs'],
+        'nama_mhs' => $_POST['nama_mhs'],
+        'prodi' => $_POST['prodi'],
+        'jurusan' => $_POST['jurusan'],
+        'email' => $_POST['email'],
+        'no_hp' => $_POST['no_hp']
+    );
+
+    // Tambahkan file foto ke data yang akan dikirim
+    $fields['foto'] = new CURLFile(
+        $_FILES["foto"]["tmp_name"],
+        $_FILES["foto"]["type"],
+        $_FILES["foto"]["name"]
+    );
+
+    // Inisialisasi cURL
+    $ch = curl_init();
+
+    // Set opsi cURL
+    curl_setopt_array($ch, array(
+        CURLOPT_URL => $url,
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => array('Content-Type: multipart/form-data'),
+        CURLOPT_POSTFIELDS => $fields,
+        CURLOPT_SSL_VERIFYPEER => false, // Tambahkan ini jika ada masalah SSL
+        CURLOPT_SSL_VERIFYHOST => false  // Tambahkan ini jika ada masalah SSL
+    ));
+
+    // Eksekusi request
+    $response = curl_exec($ch);
+
+    // Cek error cURL
+    if (curl_errno($ch)) {
+        die('Error cURL: ' . curl_error($ch));
+    }
+
+    // Tutup session cURL
+    curl_close($ch);
+
+    // Decode response JSON
+    $responseData = json_decode($response, true);
+
+    // Handle response
+    if (isset($responseData['success']) && $responseData['success']) {
+        // Redirect ke halaman sukses
+        echo "Biodata baru ditambahkan.\n";
+        echo "<script>alert('$action_message'); window.location.href='../admin/biodata.php';</script>";
+    } else {
+        // Redirect ke halaman error
+        echo "Error : " . json_encode($responseData) . "\n";
     }
 }
-
-if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('$action_message'); window.location.href='../admin/biodata.php';</script>";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
-$conn->close();

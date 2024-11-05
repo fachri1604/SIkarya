@@ -1,19 +1,33 @@
-<?php 
-include '../php/koneksi.php';
+<?php
+// Ambil ID Karya dari query parameter
+$id_karya = $_GET['id_karya'] ?? null;
 
-if (isset($_GET['id_karya'])) {
-    $id_karya = mysqli_real_escape_string($conn, $_GET['id_karya']);
-    
-    // Mengambil data karya berdasarkan ID
-    $query = "SELECT * FROM karya WHERE id_karya = '$id_karya'";
-    $result = mysqli_query($conn, $query);
-    
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-    } else {
+if ($id_karya) {
+    // Menginisialisasi cURL untuk mengambil data karya dari API
+    $ch = curl_init('https://raishaapi1.v-project.my.id/api/karya/' . $id_karya);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Mengirim permintaan
+    $response = curl_exec($ch);
+
+    // Menangani kesalahan cURL
+    if (curl_errno($ch)) {
+        header("Location: admin_page.php?status=error&message=" . urlencode('Request failed: ' . curl_error($ch)));
+        exit();
+    }
+
+    // Menutup cURL
+    curl_close($ch);
+
+    // Menangani respons dari API
+    $dataKarya = json_decode($response, true);
+    if (!$dataKarya || !isset($dataKarya['data'])) {
         header("Location: admin_page.php?status=error&message=Data tidak ditemukan");
         exit();
     }
+
+    // Mendapatkan data karya
+    $row = $dataKarya['data'];
 } else {
     header("Location: admin_page.php");
     exit();
@@ -79,15 +93,18 @@ if (isset($_GET['id_karya'])) {
                     <select id="nim" name="nim_mhs" required>
                         <option value="">Pilih NIM</option>
                         <?php
-                        // Query untuk mendapatkan NIM dari tabel biodata_mhs
-                        $sql = "SELECT nim_mhs, nama_mhs FROM biodata_mhs";
-                        $result = $conn->query($sql);
+                        // Query untuk mendapatkan NIM dari API
+                        $ch = curl_init('https://raishaapi1.v-project.my.id/api/biodata');
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $nimResponse = curl_exec($ch);
+                        curl_close($ch);
 
-                        if ($result->num_rows > 0) {
-                            while ($nim_row = $result->fetch_assoc()) {
+                        $nimData = json_decode($nimResponse, true);
+                        if ($nimData && isset($nimData['data'])) {
+                            foreach ($nimData['data'] as $nim_row) {
                                 $selected = ($nim_row['nim_mhs'] == $row['nim_mhs']) ? 'selected' : '';
-                                echo "<option value='" . $nim_row['nim_mhs'] . "' " . $selected . ">" . 
-                                     $nim_row['nim_mhs'] . " - " . $nim_row['nama_mhs'] . "</option>";
+                                echo "<option value='" . $nim_row['nim_mhs'] . "' " . $selected . ">" .
+                                    htmlspecialchars($nim_row['nim_mhs']) . " - " . htmlspecialchars($nim_row['nama_mhs']) . "</option>";
                             }
                         } else {
                             echo "<option value=''>Tidak ada data mahasiswa</option>";
@@ -105,15 +122,18 @@ if (isset($_GET['id_karya'])) {
                     <select id="categoryId" name="id_kategori" required>
                         <option value="">Pilih Kategori</option>
                         <?php
-                        // Query untuk mendapatkan ID Kategori dari tabel kategori
-                        $sql = "SELECT id_kategori, jenis_karya FROM kategori";
-                        $result = $conn->query($sql);
+                        // Query untuk mendapatkan ID Kategori dari API
+                        $ch = curl_init('https://raishaapi1.v-project.my.id/api/kategori');
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $catResponse = curl_exec($ch);
+                        curl_close($ch);
 
-                        if ($result->num_rows > 0) {
-                            while ($cat_row = $result->fetch_assoc()) {
+                        $catData = json_decode($catResponse, true);
+                        if ($catData && isset($catData['data'])) {
+                            foreach ($catData['data'] as $cat_row) {
                                 $selected = ($cat_row['id_kategori'] == $row['id_kategori']) ? 'selected' : '';
-                                echo "<option value='" . $cat_row['id_kategori'] . "' " . $selected . ">" . 
-                                     $cat_row['id_kategori'] . " - " . $cat_row['jenis_karya'] . "</option>";
+                                echo "<option value='" . $cat_row['id_kategori'] . "' " . $selected . ">" .
+                                    htmlspecialchars($cat_row['id_kategori']) . " - " . htmlspecialchars($cat_row['jenis_karya']) . "</option>";
                             }
                         } else {
                             echo "<option value=''>Tidak ada data kategori</option>";

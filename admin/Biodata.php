@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8" />
@@ -14,7 +14,7 @@
   <nav>
     <div class="logo-name">
       <div class="logo-image">
-        <img src="../assets/logo/logo polnep.png" alt="Logo SiKarya" />
+        <img src="../assets/logo/logo_polnep.png" alt="Logo SiKarya" />
       </div>
       <span class="logo_name">SiKarya</span>
     </div>
@@ -22,7 +22,7 @@
       <ul class="nav-links">
         <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
         <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
-        <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Biodata Mahasiswa</span></a></li>
+        <li><a href="data.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
       </ul>
       <ul class="logout-mode">
         <li><a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
@@ -32,11 +32,10 @@
 
   <section class="dashboard">
     <div class="top">
-      <!-- <i class="uil uil-bars sidebar-toggle"></i> -->
+      <h3>Data Mahasiswa</h3>
     </div>
 
     <div class="dash-content">
-      <h3>Data Mahasiswa</h3>
       <table id="dataTable">
         <thead>
           <tr>
@@ -52,49 +51,65 @@
         </thead>
         <tbody>
           <?php
-          include '../php/koneksi.php';
-          $sql = "SELECT * FROM biodata_mhs";
-          $result = $conn->query($sql);
+          // Fetch data dari API
+          $url = "https://raishaapi1.v-project.my.id/api/biodata";
+          $ch = curl_init();
+          curl_setopt($ch, CURLOPT_URL, $url);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          $response = curl_exec($ch);
+          if (curl_errno($ch)) {
+            die('Error: ' . curl_error($ch));
+          }
+          curl_close($ch);
 
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+          $data = json_decode($response, true);
+
+          if (isset($data['success']) && $data['success']) {
+            foreach ($data['data'] as $row) {
+              // Cek apakah ada data 'foto' dan konversi ke URL penuh
+              $fotoUrl = !empty($row['foto'])
+                ? "https://raishaapi1.v-project.my.id/storage/" . str_replace('public/', '', $row['foto'])
+                : "";
+
+              // echo "<p>URL Foto: " . htmlspecialchars($fotoUrl) . "</p>";
+
               echo "<tr>
-                <td>" . $row["nim_mhs"] . "</td>
-                <td>" . $row["nama_mhs"] . "</td>
-                <td>" . $row["prodi"] . "</td>
-                <td>" . $row["jurusan"] . "</td>
-                <td>" . $row["email"] . "</td>
-                <td>" . $row["no_hp"] . "</td>
-                <td><img src='../php/uploads1/" . $row["foto"] . "' alt='Foto Profil' class='profile-img'></td>
-                <td>
-                  <div class='button-group'>
-                    <a href='#' class='edit-btn' 
-                       data-nim='" . $row["nim_mhs"] . "' 
-                       data-nama='" . $row["nama_mhs"] . "' 
-                       data-prodi='" . $row["prodi"] . "' 
-                       data-jurusan='" . $row["jurusan"] . "' 
-                       data-email='" . $row["email"] . "' 
-                       data-nomor='" . $row["no_hp"] . "' 
-                       data-foto='" . $row["foto"] . "' 
-                       onclick='populateForm(event, this)'>
-                      <i class='uil uil-edit'></i>
-                    </a>
-                    <a href='../php/hapusbio.php?nim_mhs=" . $row["nim_mhs"] . "' class='delete-btn' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>
-                      <i class='uil uil-trash-alt'></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>";
+                        <td>" . htmlspecialchars($row["nim_mhs"]) . "</td>
+                        <td>" . htmlspecialchars($row["nama_mhs"]) . "</td>
+                        <td>" . htmlspecialchars($row["prodi"]) . "</td>
+                        <td>" . htmlspecialchars($row["jurusan"]) . "</td>
+                        <td>" . htmlspecialchars($row["email"]) . "</td>
+                        <td>" . htmlspecialchars($row["no_hp"]) . "</td>
+                        <td>";
+              if (!empty($fotoUrl)) {
+                echo "<img src='" . htmlspecialchars($fotoUrl) . "' 
+                                  alt='Foto " . htmlspecialchars($row["nama_mhs"]) . "' 
+                                  class='profile-img'
+                                  onclick='showImage(this.src)'>";
+              }
+              echo "</td>
+        <td>
+          <div class='button-group'>
+            <a href='editbio.php?nim_mhs=" . htmlspecialchars($row["nim_mhs"]) . "' 
+               class='edit-btn' 
+               onclick='return confirm(\"Apakah Anda yakin ingin mengedit data ini?\")'>
+              <i class='uil uil-edit'></i>
+            </a>
+            <a href='../php/hapusbio.php?nim_mhs=" . htmlspecialchars($row["nim_mhs"]) . "' 
+               class='delete-btn' 
+               onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>
+              <i class='uil uil-trash-alt'></i>
+            </a>
+          </div>
+        </td>
+      </tr>";
             }
           } else {
-            echo "<tr><td colspan='8'>Tidak ada data ditemukan</td></tr>";
+            echo "<tr><td colspan='8' style='text-align: center;'>Tidak ada data ditemukan</td></tr>";
           }
-          $conn->close();
           ?>
         </tbody>
       </table>
-
-      <!-- Form untuk tambah/edit biodata mahasiswa -->
       <div class="project-form" id="editFormSection">
         <h2>Tambah/Edit Biodata Mahasiswa</h2>
         <form id="projectForm" action="../php/tambahbio.php" method="POST" enctype="multipart/form-data">
@@ -125,48 +140,30 @@
     </div>
   </section>
 
-  <script>
+  <!-- <script>
     function populateForm(event, editButton) {
-      event.preventDefault(); // Mencegah link refresh halaman
+      event.preventDefault();
+      document.getElementById("nim").value = editButton.getAttribute("data-nim");
+      document.getElementById("nama").value = editButton.getAttribute("data-nama");
+      document.getElementById("prodi").value = editButton.getAttribute("data-prodi");
+      document.getElementById("jurusan").value = editButton.getAttribute("data-jurusan");
+      document.getElementById("email").value = editButton.getAttribute("data-email");
+      document.getElementById("nomor").value = editButton.getAttribute("data-nomor");
 
-      const nim = editButton.getAttribute("data-nim");
-      const nama = editButton.getAttribute("data-nama");
-      const prodi = editButton.getAttribute("data-prodi");
-      const jurusan = editButton.getAttribute("data-jurusan");
-      const email = editButton.getAttribute("data-email");
-      const nomor = editButton.getAttribute("data-nomor");
-      const foto = editButton.getAttribute("data-foto");
-
-      // Mengisi nilai form dengan data yang diambil
-      document.getElementById("nim").value = nim;
-      document.getElementById("nama").value = nama;
-      document.getElementById("prodi").value = prodi;
-      document.getElementById("jurusan").value = jurusan;
-      document.getElementById("email").value = email;
-      document.getElementById("nomor").value = nomor;
-
-      // Menampilkan preview foto jika ada
       const fileInput = document.getElementById("profileImage");
       const existingPreview = document.querySelector("#editFormSection .profile-preview");
+      if (existingPreview) existingPreview.remove();
 
-      if (existingPreview) existingPreview.remove(); // Menghapus preview foto lama jika ada
-
+      const foto = editButton.getAttribute("data-foto");
       if (foto) {
         const profilePreview = document.createElement("img");
-        profilePreview.src = `../php/uploads1/${foto}`;
+        // profilePreview.src = ../php/uploads/${foto};
         profilePreview.alt = "Foto Profil";
         profilePreview.classList.add("profile-preview");
-
         fileInput.insertAdjacentElement("afterend", profilePreview);
       }
-
-      // Scroll ke bagian formulir edit
-      document.getElementById("editFormSection").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
     }
-  </script>
+  </script> -->
 
 </body>
 

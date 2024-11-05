@@ -68,129 +68,75 @@
                             <h2>Galeri Karya Mahasiswa</h2>
                             <div class="card-list">
                                 <?php
-                                include '../php/koneksi.php';
+                                // API endpoint for getting data
+                                $url = "https://raishaapi1.v-project.my.id/api/karya";
 
-                                // Handle delete
-                                if (isset($_POST['delete']) && isset($_POST['id_karya'])) {
-                                    $id_karya = mysqli_real_escape_string($conn, $_POST['id_karya']);
+                                $ch = curl_init();
+                                curl_setopt($ch, CURLOPT_URL, $url);
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                $response = curl_exec($ch);
 
-                                    // Ambil informasi gambar sebelum menghapus
-                                    $query_gambar = "SELECT gambar_karya FROM karya WHERE id_karya = '$id_karya'";
-                                    $result_gambar = mysqli_query($conn, $query_gambar);
-                                    $row = mysqli_fetch_assoc($result_gambar);
-
-                                    // Hapus file gambar jika ada
-                                    if ($row && !empty($row['gambar_karya'])) {
-                                        $gambar_karya_array = explode(',', $row['gambar_karya']);
-                                        foreach ($gambar_karya_array as $gambar) {
-                                            $file_path = '../uploads/' . $gambar;
-                                            if (file_exists($file_path)) {
-                                                unlink($file_path);
-                                            }
-                                        }
-                                    }
-
-                                    // Hapus record dari database
-                                    $query = "DELETE FROM karya WHERE id_karya = '$id_karya'";
-                                    if (mysqli_query($conn, $query)) {
-                                        header("Location: " . $_SERVER['PHP_SELF'] . "?status=success&message=Data berhasil dihapus");
-                                        exit();
-                                    } else {
-                                        header("Location: " . $_SERVER['PHP_SELF'] . "?status=error&message=Gagal menghapus data");
-                                        exit();
-                                    }
+                                if (curl_errno($ch)) {
+                                    die('Error: ' . curl_error($ch));
                                 }
+                                curl_close($ch);
 
-                                // Pagination Logic
-                                $limit = 4; // Number of entries per page
-                                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                                $offset = ($page - 1) * $limit;
+                                $data = json_decode($response, true);
 
-                                // Get total entries
-                                $total_result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM karya");
-                                $total_row = mysqli_fetch_assoc($total_result);
-                                $total = $total_row['total'];
-                                $pages = ceil($total / $limit); // Calculate total pages
+                                if (isset($data['success']) && $data['success'] && !empty($data['data'])) {
+                                    foreach ($data['data'] as $row) {
+                                        $gambar_karya = isset($row['gambar_karya']) && $row['gambar_karya'] ? explode(',', $row['gambar_karya'])[0] : 'default.jpg';
+                                ?>
+                                        <div class="card-item">
+                                            <div class="card-content">
+                                                <img src="../uploads/<?php echo $gambar_karya; ?>" alt="Gambar Karya" />
+                                                <h3><?php echo htmlspecialchars($row['nama_karya']); ?></h3>
+                                                <p>NIM: <?php echo htmlspecialchars($row['nim_mhs']); ?></p>
+                                                <p>Deskripsi: <?php echo htmlspecialchars($row['desc_karya']); ?></p>
+                                                <p>Tahun Rilis: <?php echo htmlspecialchars($row['tahun_rilis']); ?></p>
+                                                <p>ID Kategori: <?php echo htmlspecialchars($row['id_kategori']); ?></p>
+                                            </div>
+                                            <div class="card-actions">
+                                                <div class="button-group">
+                                                    <div class="test">
+                                                        <a href="edit_karya.php?id_karya=<?php echo htmlspecialchars($row['id_karya']); ?>" class="edit-btn">
+                                                            Edit
+                                                        </a>
+                                                    </div>
+                                                    <form action="../php/delete_karya.php" method="POST" style="display: inline;">
+                                                        <input type="hidden" name="id_karya" value="<?php echo htmlspecialchars($row['id_karya']); ?>">
+                                                        <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
+                                                    </form>
 
-                                // Fetch data for the current page
-                                $sql = "SELECT * FROM karya LIMIT $limit OFFSET $offset";
-                                $result = $conn->query($sql);
-                                $karya = [];
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        $karya[] = $row;
+                                                </div>
+                                            </div>
+                                        </div>
+                                <?php
                                     }
+                                } else {
+                                    echo '<p>Tidak ada proyek ditemukan.</p>';
                                 }
                                 ?>
-                                <div class="container-card">
-                                    <div class="card-list">
-                                        <?php
-                                        if (!empty($karya)) {
-                                            foreach ($karya as $row) {
-                                                $gambar_karya_array = explode(',', $row['gambar_karya']);
-                                                $gambar_pertama = $gambar_karya_array[0]; // Ambil gambar pertama
-                                        ?>
-                                                <div class="card-item">
-                                                    <div class="card-content">
-                                                        <img src="../uploads/<?php echo $gambar_pertama; ?>" alt="Gambar Karya" />
-                                                        <h3><?php echo $row['nama_karya']; ?></h3>
-                                                        <p>NIM: <?php echo $row['nim_mhs']; ?></p>
-                                                        <p>Deskripsi: <?php echo $row['desc_karya']; ?></p>
-                                                        <p>Tahun Rilis: <?php echo $row['tahun_rilis']; ?></p>
-                                                        <p>ID Kategori: <?php echo $row['id_kategori']; ?></p>
-                                                    </div>
-                                                    <div class="card-actions">
-                                                        <div class="button-group">
-                                                            <div class="test">
-                                                                <a href="edit_karya.php?id_karya=<?php echo $row['id_karya']; ?>" class="edit-btn">
-                                                                    Edit
-                                                                </a>
-                                                            </div>
-                                                            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
-                                                                <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
-                                                                <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        <?php
-                                            }
-                                        } else {
-                                            echo '<p>Tidak ada proyek ditemukan.</p>';
-                                        }
-                                        ?>
-                                    </div>
-
-                                    <!-- Pagination Links -->
-                                    <div class="pagination-container">
-                                        <div class="pagination">
-                                            <?php if ($pages > 1): ?>
-                                                <?php for ($i = 1; $i <= $pages; $i++): ?>
-                                                    <a href="?page=<?php echo $i; ?>" class="<?php echo $i === $page ? 'active' : ''; ?>"><?php echo $i; ?></a>
-                                                <?php endfor; ?>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </section>
                 </div>
+            </div>
         </section>
+    </section>
 
-        <script>
-            // Menampilkan pop-up berdasarkan status
-            <?php if (isset($_GET['status'])): ?>
-                var status = "<?php echo $_GET['status']; ?>";
-                var message = "<?php echo htmlspecialchars(urldecode($_GET['message'] ?? '')); ?>";
-                if (status === 'success') {
-                    alert(message);
-                } else if (status === 'error') {
-                    alert('Error: ' + message);
-                }
-            <?php endif; ?>
-        </script>
+    <script>
+        // Menampilkan pop-up berdasarkan status
+        <?php if (isset($_GET['status'])): ?>
+            var status = "<?php echo $_GET['status']; ?>";
+            var message = "<?php echo htmlspecialchars(urldecode($_GET['message'] ?? '')); ?>";
+            if (status === 'success') {
+                alert(message);
+            } else if (status === 'error') {
+                alert('Error: ' + message);
+            }
+        <?php endif; ?>
+    </script>
 </body>
 
 </html>
