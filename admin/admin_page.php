@@ -63,106 +63,128 @@
 
                 <button onclick="applyFilters()">Filter</button>
 
-        <div class="content">
-            <section class="karya-container">
-                <div class="konten">
-                    <h2>Galeri Karya Mahasiswa</h2>
-                    <div class="card-list">
-                        <?php
-                        include '../php/koneksi.php';
+                <div class="content">
+                    <section class="karya-container">
+                        <div class="konten">
+                            <h2>Galeri Karya Mahasiswa</h2>
+                            <div class="card-list">
+                                <?php
+                                include '../php/koneksi.php';
 
-                        // Handle delete
-                        if (isset($_POST['delete']) && isset($_POST['id_karya'])) {
-                            $id_karya = mysqli_real_escape_string($conn, $_POST['id_karya']);
+                                // Handle delete
+                                if (isset($_POST['delete']) && isset($_POST['id_karya'])) {
+                                    $id_karya = mysqli_real_escape_string($conn, $_POST['id_karya']);
 
-                            // Ambil informasi gambar sebelum menghapus
-                            $query_gambar = "SELECT gambar_karya FROM karya WHERE id_karya = '$id_karya'";
-                            $result_gambar = mysqli_query($conn, $query_gambar);
-                            $row = mysqli_fetch_assoc($result_gambar);
+                                    // Ambil informasi gambar sebelum menghapus
+                                    $query_gambar = "SELECT gambar_karya FROM karya WHERE id_karya = '$id_karya'";
+                                    $result_gambar = mysqli_query($conn, $query_gambar);
+                                    $row = mysqli_fetch_assoc($result_gambar);
 
-                            // Hapus file gambar jika ada
-                            if ($row && !empty($row['gambar_karya'])) {
-                                // Pecah gambar menjadi array
-                                $gambar_karya_array = explode(',', $row['gambar_karya']);
-                                foreach ($gambar_karya_array as $gambar) {
-                                    $file_path = '../uploads/' . $gambar;
-                                    if (file_exists($file_path)) {
-                                        unlink($file_path);
+                                    // Hapus file gambar jika ada
+                                    if ($row && !empty($row['gambar_karya'])) {
+                                        // Pecah gambar menjadi array
+                                        $gambar_karya_array = explode(',', $row['gambar_karya']);
+                                        foreach ($gambar_karya_array as $gambar) {
+                                            $file_path = '../uploads/' . $gambar;
+                                            if (file_exists($file_path)) {
+                                                unlink($file_path);
+                                            }
+                                        }
+                                    }
+
+                                    // Hapus record dari database
+                                    $query = "DELETE FROM karya WHERE id_karya = '$id_karya'";
+                                    if (mysqli_query($conn, $query)) {
+                                        header("Location: " . $_SERVER['PHP_SELF'] . "?status=success&message=Data berhasil dihapus");
+                                        exit();
+                                    } else {
+                                        header("Location: " . $_SERVER['PHP_SELF'] . "?status=error&message=Gagal menghapus data");
+                                        exit();
                                     }
                                 }
-                            }
 
-                            // Hapus record dari database
-                            $query = "DELETE FROM karya WHERE id_karya = '$id_karya'";
-                            if (mysqli_query($conn, $query)) {
-                                header("Location: " . $_SERVER['PHP_SELF'] . "?status=success&message=Data berhasil dihapus");
-                                exit();
-                            } else {
-                                header("Location: " . $_SERVER['PHP_SELF'] . "?status=error&message=Gagal menghapus data");
-                                exit();
-                            }
-                        }
+                                // Tampilkan pesan status jika ada
+                                if (isset($_GET['status'])) {
+                                    $status = $_GET['status'];
+                                    $message = urldecode($_GET['message'] ?? '');
 
-                        // Tampilkan pesan status jika ada
-                        if (isset($_GET['status'])) {
-                            $status = $_GET['status'];
-                            $message = urldecode($_GET['message'] ?? '');
+                                    if ($status == 'success') {
+                                        echo '<div class="alert alert-success">' . htmlspecialchars($message) . '</div>';
+                                    } else if ($status == 'error') {
+                                        echo '<div class="alert alert-danger">' . htmlspecialchars($message) . '</div>';
+                                    }
+                                }
 
-                            if ($status == 'success') {
-                                echo '<div class="alert alert-success">' . htmlspecialchars($message) . '</div>';
-                            } else if ($status == 'error') {
-                                echo '<div class="alert alert-danger">' . htmlspecialchars($message) . '</div>';
-                            }
-                        }
+                                // Pagination
+                                $rows_per_page = 4;
+                                $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-                        // Ambil data karya dari database
-                        $sql = "SELECT * FROM karya"; // Ubah sesuai kebutuhan
-                        $result = $conn->query($sql);
-                        $karya = [];
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $karya[] = $row;
-                            }
-                        }
-                        ?>
-                        <div class="card-list">
-                            <?php
-                            if (!empty($karya)) {
-                                foreach ($karya as $row) {
-                                    $gambar_karya_array = explode(',', $row['gambar_karya']);
-                                    $gambar_pertama = $gambar_karya_array[0]; // Ambil gambar pertama
-                            ?>
-                                    <div class="card-item">
-                                        <div class="card-content">
-                                            <img src="../uploads/<?php echo $gambar_pertama; ?>" alt="Gambar Karya" />
-                                            <h3><?php echo $row['nama_karya']; ?></h3>
-                                            <p>NIM: <?php echo $row['nim_mhs']; ?></p>
-                                            <p>Deskripsi: <?php echo $row['desc_karya']; ?></p>
-                                            <p>Tahun Rilis: <?php echo $row['tahun_rilis']; ?></p>
-                                            <p>ID Kategori: <?php echo $row['id_kategori']; ?></p>
-                                        </div>
-                                        <div class="card-actions">
-                                            <div class="button-group">
-                                                <a href="edit_karya.php?id_karya=<?php echo $row['id_karya']; ?>" class="edit-btn">
-                                                    <button type="button">Edit</button>
-                                                </a>
-                                                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
-                                                    <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
-                                                    <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
-                                                </form>
+                                $sql = "SELECT COUNT(*) AS total_rows FROM karya";
+                                $result = $conn->query($sql);
+                                $row = $result->fetch_assoc();
+                                $total_rows = $row['total_rows'];
+
+                                $total_pages = ceil($total_rows / $rows_per_page);
+
+                                $offset = ($current_page - 1) * $rows_per_page;
+
+                                $sql = "SELECT * FROM karya LIMIT $offset, $rows_per_page";
+                                $result = $conn->query($sql);
+                                $karya = [];
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        $karya[] = $row;
+                                    }
+                                }
+                                ?>
+                                <div class="card-list">
+                                    <?php
+                                    if (!empty($karya)) {
+                                        foreach ($karya as $row) {
+                                            $gambar_karya_array = explode(',', $row['gambar_karya']);
+                                            $gambar_pertama = $gambar_karya_array[0]; // Ambil gambar pertama
+                                    ?>
+                                        <div class="card-item">
+                                            <div class="card-content">
+                                                <img src="../uploads/<?php echo $gambar_pertama; ?>" alt="Gambar Karya" />
+                                                <h3><?php echo $row['nama_karya']; ?></h3>
+                                                <p>NIM: <?php echo $row['nim_mhs']; ?></p>
+                                                <p>Deskripsi: <?php echo $row['desc_karya']; ?></p>
+                                                <p>Tahun Rilis: <?php echo $row['tahun_rilis']; ?></p>
+                                                <p>ID Kategori: <?php echo $row['id_kategori']; ?></p>
+                                            </div>
+                                            <div class="card-actions">
+                                                <div class="button-group">
+                                                    <a href="edit_karya.php?id_karya=<?php echo $row['id_karya']; ?>" class="edit-btn">
+                                                        <button type="button">Edit</button>
+                                                    </a>
+                                                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
+                                                        <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
+                                                        <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                            <?php
-                                }
-                            } else {
-                                echo '<p>Tidak ada proyek ditemukan.</p>';
-                            }
-                            ?>
+                                    <?php
+                                        }
+                                    } else {
+                                        echo '<p>Tidak ada proyek ditemukan.</p>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
-            </section>
+            </div>
+        </section>
+
+        <div class="pagination" style="text-align: right;">
+            <?php
+            for ($page = 1; $page <= $total_pages; $page++) {
+                echo "<a href='admin_page.php?page=$page' class='" . ($page == $current_page ? 'active' : '') . "'>$page</a>";
+            }
+            ?>
         </div>
     </section>
 
