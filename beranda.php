@@ -25,16 +25,10 @@
         <ul class="links">
           <li><a href="beranda.php">Beranda</a></li>
           <li><a href="karya.php">Karya</a></li>
-          <li><a href="login/login.html">Login</a></li>
+          <li><a href="login/login.php">Login</a></li>
         </ul>
       </div>
-      <div class="search-box">
-        <i class="bx bx-search"></i>
-        <div class="input-box">
-          <input type="text" id="searchInput" placeholder="Search..." />
-          <ul id="searchResults"></ul>
-        </div>
-      </div>
+    </div>
     </div>
   </nav>
   <script src="js/navbar.js"></script>

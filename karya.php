@@ -27,44 +27,44 @@
         <ul class="links">
           <li><a href="beranda.php">Beranda</a></li>
           <li><a href="karya.php">Karya</a></li>
-          <li><a href="login/login.html">Login</a></li>
+          <li><a href="login/login.php">Login</a></li>
         </ul>
       </div>
-      <div class="search-box">
+      <!-- <div class="search-box">
         <i class="bx bx-search"></i>
         <div class="input-box">
           <input type="text" id="searchInput" placeholder="Search..." />
           <ul id="searchResults"></ul>
-        </div>
-      </div>
+        </div> -->
+    </div>
     </div>
   </nav>
 
   <!-- Filter Section -->
   <section class="content-container">
     <div class="konten2" id="karya">
-    <form id="filterForm" action="karya.php" method="GET">
-    <label for="categoryFilter">Kategori:</label>
-    <select id="categoryFilter" name="id_kategori">
-        <option value="">Semua Kategori</option>
-        <option value="1">PBL</option>
-        <option value="2">Tugas Akhir</option>
-        <option value="3">Final Project</option>
-    </select>
+      <form id="filterForm" action="karya.php" method="GET">
+        <label for="categoryFilter">Kategori:</label>
+        <select id="categoryFilter" name="id_kategori">
+          <option value="">Semua Kategori</option>
+          <option value="1">PBL</option>
+          <option value="2">Tugas Akhir</option>
+          <option value="3">Final Project</option>
+        </select>
 
-    <label for="yearFilter">Tahun Rilis:</label>
-    <select id="yearFilter" name="tahun_rilis">
-        <option value="">Semua Tahun</option>
-        <?php
-        $currentYear = date("Y");
-        for ($year = $currentYear; $year >= 2020; $year--) {
+        <label for="yearFilter">Tahun Rilis:</label>
+        <select id="yearFilter" name="tahun_rilis">
+          <option value="">Semua Tahun</option>
+          <?php
+          $currentYear = date("Y");
+          for ($year = $currentYear; $year >= 2020; $year--) {
             echo "<option value='$year'>$year</option>";
-        }
-        ?>
-    </select>
+          }
+          ?>
+        </select>
 
-    <button type="submit">Filter</button>
-</form>
+        <button type="submit">Filter</button>
+      </form>
 
 
       <!-- Content Section -->
