@@ -22,7 +22,8 @@
       <ul class="nav-links">
         <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
         <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
-        <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
+        <li><a href="data.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
+        <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name">Admin Desk</span></a></li>
       </ul>
       <ul class="logout-mode">
         <li><a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
@@ -32,27 +33,22 @@
 
   <section class="dashboard">
     <div class="top">
-      <h3>Data Mahasiswa</h3>
+      <h3>Data Admin</h3>
     </div>
 
     <div class="dash-content">
       <table id="dataTable">
         <thead>
           <tr>
-            <th>NIM</th>
-            <th>Nama Lengkap</th>
-            <th>Prodi</th>
-            <th>Jurusan</th>
+            <th>Username</th>
             <th>Email</th>
-            <th>Nomor Handphone</th>
-            <th>Foto Profil</th>
             <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
           <?php
           // Fetch data dari API
-          $url = "https://raishaapi1.v-project.my.id/api/biodata";
+          $url = "https://raishaapi1.v-project.my.id/api/users";
           $ch = curl_init();
           curl_setopt($ch, CURLOPT_URL, $url);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -67,19 +63,14 @@
           if (isset($data['success']) && $data['success']) {
             foreach ($data['data'] as $row) {
               // Cek apakah ada data 'foto' dan konversi ke URL penuh
-              $fotoUrl = !empty($row['foto'])
-                ? "https://raishaapi1.v-project.my.id/storage/" . str_replace('public/', '', $row['foto'])
-                : "";
+
 
               // echo "<p>URL Foto: " . htmlspecialchars($fotoUrl) . "</p>";
 
               echo "<tr>
-                        <td>" . htmlspecialchars($row["nim_mhs"]) . "</td>
-                        <td>" . htmlspecialchars($row["nama_mhs"]) . "</td>
-                        <td>" . htmlspecialchars($row["prodi"]) . "</td>
-                        <td>" . htmlspecialchars($row["jurusan"]) . "</td>
+                        <td>" . htmlspecialchars($row["username"]) . "</td>
                         <td>" . htmlspecialchars($row["email"]) . "</td>
-                        <td>" . htmlspecialchars($row["no_hp"]) . "</td>
+                       
                         <td>";
               if (!empty($fotoUrl)) {
                 echo "<img src='" . htmlspecialchars($fotoUrl) . "' 
@@ -90,12 +81,12 @@
               echo "</td>
         <td>
           <div class='button-group'>
-            <a href='editbio.php?nim_mhs=" . htmlspecialchars($row["nim_mhs"]) . "' 
+            <a href='editbio.php?nim_mhs=" . htmlspecialchars($row["username"]) . "' 
                class='edit-btn' 
                onclick='return confirm(\"Apakah Anda yakin ingin mengedit data ini?\")'>
               <i class='uil uil-edit'></i>
             </a>
-            <a href='../php/hapusbio.php?nim_mhs=" . htmlspecialchars($row["nim_mhs"]) . "' 
+            <a href='../php/hapusbio.php?nim_mhs=" . htmlspecialchars($row["username"]) . "' 
                class='delete-btn' 
                onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>
               <i class='uil uil-trash-alt'></i>
