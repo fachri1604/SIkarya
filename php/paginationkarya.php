@@ -14,9 +14,16 @@ curl_close($ch);
 $data = json_decode($response, true);
 
 if (isset($data['success']) && $data['success']) {
-    echo "<div class='card-list'>";
+    $total_rows = count($data['data']);
+    $rows_per_page = 8;
+    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $total_pages = ceil($total_rows / $rows_per_page);
 
-    foreach ($data['data'] as $row) {
+    $offset = ($current_page - 1) * $rows_per_page;
+    $displayed_rows = array_slice($data['data'], $offset, $rows_per_page);
+
+    echo "<div class='card-list'>";
+    foreach ($displayed_rows as $row) {
         $gambar_karya = isset($row['gambar_karya']) && $row['gambar_karya'] ? explode(',', $row['gambar_karya'])[0] : 'default.jpg';
         echo "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
         echo "<img src='uploads/" . htmlspecialchars($gambar_karya) . "' alt='Card Image' />";
@@ -25,32 +32,14 @@ if (isset($data['success']) && $data['success']) {
         echo "<div class='arrow'><i class='fas fa-arrow-right card-icon'></i></div>";
         echo "</a>";
     }
+    echo "</div>";
 
-    echo "</div>"; // Close card-list
+    echo "<div class='pagination' style='text-align: right;'>";
+    for ($i = 1; $i <= $total_pages; $i++) {
+        echo "<a href='karya.php?page=$i" . (isset($_GET['kategori']) ? "&kategori=" . $_GET['kategori'] : "") . (isset($_GET['year']) ? "&year=" . $_GET['year'] : "") . "' class='" . ($i == $current_page ? 'active' : '') . "'>$i</a>";
+    }
+    echo "</div>";
 } else {
     echo "<p>Tidak ada data karya yang ditemukan.</p>";
 }
-// Generate pagination links
-// echo "<div class='pagination' style='text-align: right;'>";
-// if ($total_pages > 5) {
-//     if ($page > 1) {
-//         echo "<a href='karya.php?page=1&kategori=$kategori&year=$year'>&lt;&lt;</a> "; // First page link
-//         echo "<a href='karya.php?page=" . ($page - 1) . "&kategori=$kategori&year=$year'>&lt;</a> "; // Previous page link
-//     }
-// }
-
-// for ($i = max(1, $page - 2); $i <= min($total_pages, $page + 2); $i++) {
-//     if ($i == $page) {
-//         echo "<strong>$i</strong> "; // Current page
-//     } else {
-//         echo "<a href='karya.php?page=$i&kategori=$kategori&year=$year'>$i</a> "; // Other pages
-//     }
-// }
-
-// if ($total_pages > 5) {
-//     if ($page < $total_pages) {
-//         echo "<a href='karya.php?page=" . ($page + 1) . "&kategori=$kategori&year=$year'>&gt;</a> "; // Next page link
-//         echo "<a href='karya.php?page=$total_pages&kategori=$kategori&year=$year'>&gt;&gt;</a>"; // Last page link
-//     }
-// }
-// echo "</div>";
+?>

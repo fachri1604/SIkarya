@@ -826,20 +826,27 @@ footer {
 /* Karya Section End */
 
 .pagination {
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
 }
 
-.pagination a,
-.pagination strong {
+.pagination a {
   margin: 0 5px;
+  padding: 8px 16px;
   text-decoration: none;
-  color: #007bff; /* Change color as needed */
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-.pagination a:hover {
-  text-decoration: underline;
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
 }
 
-.pagination strong {
-  color: #000; /* Color for the current page */
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
 }

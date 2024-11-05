@@ -1,62 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-    <meta charset="UTF-8" />
-    <link
-      rel="stylesheet"
-      href="./css/style.css"
-    />
-    <meta
-      http-equiv="X-UA-Compatible"
-      content="IE=edge"
-    />
-    <link
-      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <title>SIKARYA</title>
-  </head>
-  <body>
-    <!-- Header Section Start -->
-    <nav>
-      <div class="navbar">
-        <i class="bx bx-menu"></i>
-        <div class="logo"><a href="index.html">SiKarya</a></div>
-        <div class="nav-links">
-          <div class="sidebar-logo">
-            <span class="logo-name">SiKarya</span>
-            <i class="bx bx-x"></i>
-          </div>
-          <ul class="links">
-            <li><a href="index.php">Beranda</a></li>
-            <li><a href="karya.php">Karya</a></li>
-            <li><a href="login/login.html">Login</a></li>
-          </ul>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIKARYA</title>
+</head>
+
+<body>
+  <!-- Header Section Start -->
+  <nav>
+    <div class="navbar">
+      <i class="bx bx-menu"></i>
+      <div class="logo"><a href="index.html">SiKarya</a></div>
+      <div class="nav-links">
+        <div class="sidebar-logo">
+          <span class="logo-name">SiKarya</span>
+          <i class="bx bx-x"></i>
         </div>
-        <div class="search-box">
-          <i class="bx bx-search"></i>
-          <div class="input-box">
-            <input
-              type="text"
-              id="searchInput"
-              placeholder="Search..."
-            />
-            <ul id="searchResults"></ul>
-          </div>
+        <ul class="links">
+          <li><a href="beranda.php">Beranda</a></li>
+          <li><a href="karya.php">Karya</a></li>
+          <li><a href="login/login.html">Login</a></li>
+        </ul>
+      </div>
+      <div class="search-box">
+        <i class="bx bx-search"></i>
+        <div class="input-box">
+          <input type="text" id="searchInput" placeholder="Search..." />
+          <ul id="searchResults"></ul>
         </div>
       </div>
-    </nav>
-    <script src="js/navbar.js"></script>
-    <script src="js/search.js"></script>
-    <!-- Header Section End -->
+    </div>
+  </nav>
+  <script src="js/navbar.js"></script>
+  <script src="js/search.js"></script>
+  <!-- Header Section End -->
 
   <!-- Content Section Start -->
   <section class="content-container">
@@ -83,9 +66,17 @@
       $data = json_decode($response, true);
 
       if (isset($data['success']) && $data['success']) {
+        // Sort data by the 'id_karya' or another field for most recent data
+        usort($data['data'], function ($a, $b) {
+          return $b['id_karya'] - $a['id_karya']; // Sort descending by 'id_karya'
+        });
+
+        // Limit to 4 items
+        $limitedData = array_slice($data['data'], 0, 4);
+
         echo "<div class='card-list'>";
 
-        foreach ($data['data'] as $row) {
+        foreach ($limitedData as $row) {
           $gambar_karya = isset($row['gambar_karya']) && $row['gambar_karya'] ? explode(',', $row['gambar_karya'])[0] : 'default.jpg';
           echo "<a href='detail/detail.php?id_karya=" . $row['id_karya'] . "' class='card-item'>";
           echo "<img src='uploads/" . htmlspecialchars($gambar_karya) . "' alt='Card Image' />";
@@ -101,6 +92,7 @@
       }
       ?>
     </div>
+
   </section>
   <!-- Content Section End -->
 

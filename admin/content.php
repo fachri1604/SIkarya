@@ -125,10 +125,12 @@
                 <li>
                     <a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Biodata Mahasiswa</span></a>
                 </li>
+                <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name">Admin Desk</span></a></li>
             </ul>
+
             <ul class="logout-mode">
                 <li>
-                    <a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a>
+                    <a href="../login/login.php"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a>
                 </li>
             </ul>
         </div>
