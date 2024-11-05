@@ -22,7 +22,7 @@
       <ul class="nav-links">
         <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
         <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
-        <li><a href="data.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
+        <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
         <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name">Admin Desk</span></a></li>
       </ul>
       <ul class="logout-mode">
@@ -48,7 +48,7 @@
         <tbody>
           <?php
           // Fetch data dari API
-          $url = "https://raishaapi1.v-project.my.id/api/users";
+          $url = "http://127.0.0.1:8000/api/users";
           $ch = curl_init();
           curl_setopt($ch, CURLOPT_URL, $url);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -71,22 +71,16 @@
                         <td>" . htmlspecialchars($row["username"]) . "</td>
                         <td>" . htmlspecialchars($row["email"]) . "</td>
                        
-                        <td>";
-              if (!empty($fotoUrl)) {
-                echo "<img src='" . htmlspecialchars($fotoUrl) . "' 
-                                  alt='Foto " . htmlspecialchars($row["nama_mhs"]) . "' 
-                                  class='profile-img'
-                                  onclick='showImage(this.src)'>";
-              }
-              echo "</td>
+                        
+             
         <td>
           <div class='button-group'>
-            <a href='editbio.php?nim_mhs=" . htmlspecialchars($row["username"]) . "' 
+            <a href='edit_admin.php?username=" . htmlspecialchars($row["username"]) . "' 
                class='edit-btn' 
                onclick='return confirm(\"Apakah Anda yakin ingin mengedit data ini?\")'>
               <i class='uil uil-edit'></i>
             </a>
-            <a href='../php/hapusbio.php?nim_mhs=" . htmlspecialchars($row["username"]) . "' 
+            <a href='../php/hapus_admin.php?username=" . htmlspecialchars($row["username"]) . "' 
                class='delete-btn' 
                onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>
               <i class='uil uil-trash-alt'></i>
@@ -103,27 +97,15 @@
       </table>
       <div class="project-form" id="editFormSection">
         <h2>Tambah/Edit Biodata Mahasiswa</h2>
-        <form id="projectForm" action="../php/tambahbio.php" method="POST" enctype="multipart/form-data">
-          <label for="nim">NIM:</label>
-          <input type="text" id="nim" name="nim_mhs" required />
-
-          <label for="nama">Nama Lengkap:</label>
-          <input type="text" id="nama" name="nama_mhs" required />
-
-          <label for="prodi">Prodi:</label>
-          <input type="text" id="prodi" name="prodi" required />
-
-          <label for="jurusan">Jurusan:</label>
-          <input type="text" id="jurusan" name="jurusan" required />
+        <form id="projectForm" action="../php/tambahadmin.php" method="POST" enctype="multipart/form-data">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required />
 
           <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required />
+          <input type="text" id="email" name="email" required />
 
-          <label for="nomor">Nomor Handphone:</label>
-          <input type="text" id="nomor" name="no_hp" required />
-
-          <label for="profileImage">Foto Profil:</label>
-          <input type="file" id="profileImage" name="foto" accept="image/*" />
+          <label for="password">Password:</label>
+          <input type="text" id="password" name="password" required />
 
           <button type="submit" name="submit">Simpan Data</button>
         </form>
