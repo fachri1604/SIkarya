@@ -125,7 +125,7 @@
                                                 </a>
                                                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" style="display: inline;">
                                                     <input type="hidden" name="id_karya" value="<?php echo $row['id_karya']; ?>">
-                                                    <button type="submit" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
+                                                    <button type="button" name="delete" class="delete-btn" onclick="return confirm('Apakah kamu yakin ingin menghapus karya ini?')">Hapus</button>
                                                 </form>
                                             </div>
                                         </div>
