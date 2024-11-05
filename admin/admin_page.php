@@ -14,7 +14,7 @@
     <nav>
         <div class="logo-name">
             <div class="logo-image">
-                <img src="../assets/logo/logo polnep.png" alt="Logo SiKarya" />
+                <img src="../assets/logo/logo_polnep.png" alt="Logo SiKarya" />
             </div>
             <span class="logo_name">SiKarya</span>
         </div>
@@ -23,7 +23,7 @@
             <li><a href="admin_page.php"><i class="uil uil-estate"></i><span class="link-name">Karya</span></a></li>
         <li><a href="content.php"><i class="uil uil-plus-circle"></i><span class="link-name">Tambah Karya</span></a></li>
         <li><a href="Biodata.php"><i class="uil uil-user"></i><span class="link-name">Data Mahasiswa</span></a></li>
-        <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name"></span></a></li>
+        <li><a href="admin.php"><i class="uil uil-user"></i><span class="link-name">Admin Desk</span></a></li>
             </ul>
             <ul class="logout-mode">
                 <li><a href="../login/login.html"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>

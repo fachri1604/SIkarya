@@ -50,7 +50,7 @@ if ($id_karya) {
     <nav>
         <div class="logo-name">
             <div class="logo-image">
-                <img src="../assets/logo/logo polnep.png" alt="Logo SiKarya" />
+                <img src="../assets/logo/logo_polnep.png" alt="Logo SiKarya" />
             </div>
             <span class="logo_name">SiKarya</span>
         </div>
