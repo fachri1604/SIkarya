@@ -49,7 +49,7 @@
                         <option value="">Semua Kategori</option>
                         <option value="1">PBL</option>
                         <option value="2">Tugas Akhir</option>
-                        <option value="3">Final Project</option>
+                        <option value="3">Lomba</option>
                     </select>
 
                     <label for="yearFilter">Tahun Rilis:</label>
