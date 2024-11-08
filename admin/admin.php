@@ -48,7 +48,7 @@
         <tbody>
           <?php
           // Fetch data dari API
-          $url = "http://127.0.0.1:8000/api/users";
+          $url = "https://raishaapi1.v-project.my.id/api/users";
           $ch = curl_init();
           curl_setopt($ch, CURLOPT_URL, $url);
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -96,7 +96,7 @@
         </tbody>
       </table>
       <div class="project-form" id="editFormSection">
-        <h2>Tambah/Edit Biodata Mahasiswa</h2>
+        <h2>Tambah/Edit Biodata Admin</h2>
         <form id="projectForm" action="../php/tambahadmin.php" method="POST" enctype="multipart/form-data">
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" required />
